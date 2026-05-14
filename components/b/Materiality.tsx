@@ -35,7 +35,7 @@ export function Materiality() {
         <div className="md:col-span-6 md:col-start-7">
           <div className="relative w-full overflow-hidden" style={{ aspectRatio: '4/5' }}>
             <Image
-              src="/images/ph2.webp"
+              src="/images/bg07.webp"
               alt="Material study"
               fill
               sizes="(min-width: 768px) 50vw, 100vw"

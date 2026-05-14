@@ -26,7 +26,7 @@ export function Hero() {
       >
         <motion.div style={{ y }} className="absolute inset-0">
           <Image
-            src="/images/hero.webp"
+            src="/images/hero-b.webp"
             alt="Steel Naked™"
             fill
             priority

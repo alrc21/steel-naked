@@ -19,7 +19,7 @@ export default function Landing() {
       <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen">
         <Card
           href="/a"
-          image="/images/bg03.webp"
+          image="/images/hero-a.webp"
           label="_a · brutalist edition"
           title="Sheet,"
           titleAccent="folded."
@@ -27,7 +27,7 @@ export default function Landing() {
         />
         <Card
           href="/b"
-          image="/images/bg07.webp"
+          image="/images/hero-b.webp"
           label="_b · editorial edition"
           title="Steel,"
           titleAccent="sculpted."

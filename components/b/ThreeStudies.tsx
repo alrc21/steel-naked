@@ -6,7 +6,7 @@ import { fadeUp, staggerChildren } from '@/lib/motion-presets';
 
 const studies = [
   {
-    src: '/images/ph1.webp',
+    src: '/images/bg04.webp',
     label: 'Lounge',
     title: 'The Brutalist Recline',
     n: '_01',
@@ -15,7 +15,7 @@ const studies = [
     offset: 0,
   },
   {
-    src: '/images/ph7.webp',
+    src: '/images/bg05.webp',
     label: 'Mark',
     title: 'The Mark',
     n: '_02',
@@ -24,7 +24,7 @@ const studies = [
     offset: 64,
   },
   {
-    src: '/images/ph3.webp',
+    src: '/images/bg06.webp',
     label: 'Plate',
     title: 'The Folded Plate',
     n: '_03',

@@ -20,7 +20,7 @@ export function Hero() {
     >
       <motion.div style={{ y, scale }} className="absolute inset-0">
         <Image
-          src="/images/hero.webp"
+          src="/images/hero-a.webp"
           alt="Steel Naked™ — folded stainless steel object"
           fill
           priority
