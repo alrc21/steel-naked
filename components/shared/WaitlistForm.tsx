@@ -3,11 +3,10 @@
 import { useState, type FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { waitlistSchema, normalizeEmail } from '@/components/shared/waitlist-schema';
+import { EASE_EDITORIAL } from '@/lib/motion-presets';
 
 type Source = 'a' | 'b' | 'landing';
 type Status = 'idle' | 'loading' | 'success' | 'error';
-
-const EASE: [number, number, number, number] = [0.2, 0.7, 0.2, 1];
 
 type WaitlistFormProps = {
   source: Source;
@@ -54,10 +53,12 @@ export function WaitlistForm({
         {status === 'success' ? (
           <motion.div
             key="success"
+            role="status"
+            aria-live="polite"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.6, ease: EASE }}
+            transition={{ duration: 0.6, ease: EASE_EDITORIAL }}
             className={`font-mono uppercase tracking-[0.16em] text-[12px] ${isBrutalist ? 'text-[var(--color-paper)]' : 'text-[var(--color-paper)]'}`}
           >
             _received. you are on the list.
@@ -72,7 +73,13 @@ export function WaitlistForm({
             className="flex flex-col gap-3"
             noValidate
           >
-            <div className="flex items-stretch gap-0 border-b border-[var(--color-paper)]/30">
+            <div
+              className={`flex items-stretch gap-0 border-b transition-colors duration-[600ms] ${
+                status === 'error'
+                  ? 'border-[var(--color-accent)]'
+                  : 'border-[var(--color-paper)]/30'
+              }`}
+            >
               <input
                 aria-label="Email"
                 type="email"
@@ -80,7 +87,7 @@ export function WaitlistForm({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={isBrutalist ? 'YOUR EMAIL' : 'your email'}
-                className={`flex-1 bg-transparent px-0 py-3 outline-none placeholder:text-[var(--color-paper)]/40 text-[var(--color-paper)] ${
+                className={`flex-1 bg-transparent px-0 py-3 outline-none placeholder:text-[var(--color-paper)]/60 text-[var(--color-paper)] ${
                   isBrutalist
                     ? 'font-mono uppercase tracking-[0.16em] text-[13px]'
                     : 'font-sans text-[15px]'
@@ -88,6 +95,8 @@ export function WaitlistForm({
               />
               <button
                 type="submit"
+                aria-label="Join the founder list"
+                aria-busy={status === 'loading'}
                 disabled={status === 'loading'}
                 className={`px-4 text-[var(--color-paper)] transition-opacity disabled:opacity-50 ${
                   isBrutalist
@@ -99,21 +108,26 @@ export function WaitlistForm({
               </button>
             </div>
             {withNote && (
-              <textarea
-                aria-label="Anything you'd like us to know?"
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                placeholder="anything you'd like us to know?"
-                maxLength={500}
-                rows={2}
-                className="bg-transparent border-b border-[var(--color-paper)]/20 py-3 outline-none placeholder:text-[var(--color-paper)]/40 text-[var(--color-paper)] font-sans text-[14px] resize-none"
-              />
+              <>
+                <label htmlFor="waitlist-note" className="sr-only">
+                  Anything you&apos;d like us to know?
+                </label>
+                <textarea
+                  id="waitlist-note"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  placeholder="anything you'd like us to know?"
+                  maxLength={500}
+                  rows={2}
+                  className="bg-transparent border-b border-[var(--color-paper)]/20 py-3 outline-none placeholder:text-[var(--color-paper)]/60 text-[var(--color-paper)] font-sans text-[14px] resize-none"
+                />
+              </>
             )}
             {errorMessage && (
               <motion.p
-                initial={{ opacity: 0, x: -6 }}
-                animate={{ opacity: 1, x: [0, -4, 4, -2, 2, 0] }}
-                transition={{ duration: 0.4 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
                 className="font-mono uppercase tracking-[0.12em] text-[11px] text-[var(--color-accent)]"
               >
                 {errorMessage}

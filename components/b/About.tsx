@@ -14,13 +14,14 @@ export function About() {
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
         <div className="md:col-span-7">
           <StackedHeadline
+            as="h1"
             lines={[
               'Near-future seating',
               'sculpted from a single',
               'sheet of stainless steel.',
             ]}
             className="font-display text-[var(--color-ink)] tracking-[-0.025em] leading-[0.95] font-medium max-w-[14ch]"
-            style={{ fontSize: 'clamp(40px, 9vw, 168px)' }}
+            style={{ fontSize: 'var(--text-display-xl)' }}
           />
         </div>
         <Reveal

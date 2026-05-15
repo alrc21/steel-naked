@@ -7,7 +7,7 @@
   --color-ink-2: #2a2520;
   --color-mute: #8a8378;
   --color-steel: #c5c0b6;
-  --color-stone: #7A7B6F;
+  --color-stone: #5e6056;
   --color-accent: #c0573a;
   --color-rule: oklch(0.15 0.005 60 / 0.08);
 
@@ -21,7 +21,14 @@
 :root {
   --gutter: clamp(20px, 4vw, 56px);
   --section-pad: clamp(80px, 18vh, 240px);
+  --section-pad-tight: clamp(56px, 12vh, 160px);
+  --section-pad-generous: clamp(120px, 24vh, 320px);
   --topbar-h: 56px;
+
+  --text-display-xl: clamp(56px, 9vw, 168px);
+  --text-display-lg: clamp(40px, 5vw, 80px);
+  --text-display-md: clamp(36px, 5vw, 80px);
+  --text-display-sm: clamp(28px, 3vw, 48px);
 }
 
 @media (min-width: 768px) {
@@ -68,4 +75,23 @@ body {
 
 :where(.font-b) {
   --font-display: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 0;
+}
+*[data-no-focus-ring]:focus-visible { outline: none; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
