@@ -4,16 +4,16 @@ import { StackedHeadline } from '@/components/shared/StackedHeadline';
 
 export function Experience() {
   return (
-    <section className="py-[var(--section-pad)] px-[var(--gutter)] bg-[var(--color-paper)]">
+    <section className="py-[var(--section-pad-tight)] px-[var(--gutter)] bg-[var(--color-paper)]">
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
         <div className="md:col-span-5">
-          <Eyebrow className="font-mono lowercase text-[11px] font-normal text-[var(--color-mute)] mb-6">
-            _experience / 05
+          <Eyebrow className="text-[var(--color-mute)] mb-6">
+            _EXPERIENCE / 05
           </Eyebrow>
           <StackedHeadline
             lines={['Sculptural comfort.']}
             className="font-display text-[var(--color-ink)] tracking-[-0.025em] leading-[1] font-medium"
-            style={{ fontSize: 'clamp(40px, 5vw, 80px)' }}
+            style={{ fontSize: 'var(--text-display-lg)' }}
           />
         </div>
         <Reveal className="md:col-span-6 md:col-start-7 self-end">

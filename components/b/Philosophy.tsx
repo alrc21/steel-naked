@@ -7,17 +7,17 @@ export function Philosophy() {
   return (
     <section
       id="studio"
-      className="py-[var(--section-pad)] px-[var(--gutter)] bg-[var(--color-paper-2)]"
+      className="py-[var(--section-pad-generous)] px-[var(--gutter)] bg-[var(--color-paper-2)]"
     >
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
         <div className="md:col-span-8">
-          <Eyebrow className="font-mono uppercase text-[11px] tracking-[0.18em] text-[var(--color-mute)] mb-8">
-            _design philosophy / 06
+          <Eyebrow className="text-[var(--color-mute)] mb-8">
+            _DESIGN PHILOSOPHY / 06
           </Eyebrow>
           <StackedHeadline
             lines={['Less object.', 'More presence.']}
             className="font-display text-[var(--color-ink)] tracking-[-0.025em] leading-[0.95] font-medium"
-            style={{ fontSize: 'clamp(48px, 9vw, 160px)' }}
+            style={{ fontSize: 'var(--text-display-xl)' }}
           />
         </div>
         <div className="md:col-span-4 md:col-start-9 flex flex-col gap-6 self-end max-w-[36ch]">

@@ -4,15 +4,15 @@ import { StackedHeadline } from '@/components/shared/StackedHeadline';
 
 export function Concept() {
   return (
-    <section className="py-[var(--section-pad)] px-[var(--gutter)] bg-[var(--color-paper)]">
+    <section className="py-[var(--section-pad-generous)] px-[var(--gutter)] bg-[var(--color-paper)]">
       <div className="max-w-[1400px] mx-auto">
-        <Eyebrow className="font-mono uppercase text-[11px] tracking-[0.18em] text-[var(--color-mute)] mb-16">
-          _the concept / 02
+        <Eyebrow className="text-[var(--color-mute)] mb-16">
+          _THE CONCEPT / 02
         </Eyebrow>
         <StackedHeadline
           lines={['One sheet.', 'One gesture.', 'One object.']}
           className="font-display text-[var(--color-ink)] tracking-[-0.025em] leading-[0.95] font-medium"
-          style={{ fontSize: 'clamp(40px, 9vw, 168px)' }}
+          style={{ fontSize: 'var(--text-display-xl)' }}
         />
         <Reveal className="mt-10 max-w-[60ch]">
           <p className="font-sans text-[15px] leading-[1.5] text-[var(--color-ink-2)]">

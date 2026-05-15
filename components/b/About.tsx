@@ -6,10 +6,10 @@ export function About() {
   return (
     <section
       id="about"
-      className="relative py-[var(--section-pad)] px-[var(--gutter)] bg-[var(--color-paper)]"
+      className="relative py-[var(--section-pad-generous)] px-[var(--gutter)] bg-[var(--color-paper)]"
     >
-      <Eyebrow className="absolute left-[max(8px,calc(var(--gutter)-48px))] top-[var(--section-pad)] font-mono lowercase text-[11px] font-normal text-[var(--color-mute)]">
-        _about steel naked
+      <Eyebrow className="absolute left-[max(8px,calc(var(--gutter)-48px))] top-[var(--section-pad-generous)] text-[var(--color-mute)]">
+        _ABOUT STEEL NAKED
       </Eyebrow>
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
         <div className="md:col-span-7">
