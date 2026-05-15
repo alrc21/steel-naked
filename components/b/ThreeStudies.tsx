@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
-import { motion, AnimatePresence, useScroll, useReducedMotion } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useReducedMotion, type Variants } from 'motion/react';
 import { Eyebrow } from '@/components/shared/Eyebrow';
 import { EASE_EDITORIAL } from '@/lib/motion-presets';
 
@@ -56,6 +56,63 @@ const STEPS = [
 ] as const;
 
 const STEP_COUNT = STEPS.length;
+
+const EASE = EASE_EDITORIAL as unknown as [number, number, number, number];
+
+const bgVariants: Variants = {
+  enter: {
+    y: '100%',
+    rotate: -3,
+    scale: 1.08,
+    opacity: 1,
+  },
+  center: {
+    y: ['100%', '0%'],
+    rotate: [-3, 0, 0],
+    scale: [1.08, 1.0, 1.0],
+    opacity: 1,
+    transition: {
+      duration: 1.2,
+      ease: EASE,
+      times: [0, 0.5, 1],
+    },
+  },
+  exit: {
+    y: '0%',
+    rotate: 0,
+    scale: 1.04,
+    opacity: 0.6,
+    transition: {
+      duration: 1.2,
+      ease: EASE,
+    },
+  },
+};
+
+const portraitVariants: Variants = {
+  enter: {
+    y: '100%',
+    rotate: -2,
+    scale: 1.05,
+    opacity: 1,
+  },
+  center: {
+    y: ['100%', '0%'],
+    rotate: [-2, 0, 0],
+    scale: [1.05, 1.0, 1.0],
+    opacity: 1,
+    transition: {
+      duration: 1.0,
+      ease: EASE,
+      times: [0, 0.5, 1],
+      delay: 0.15,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: 0.5, ease: EASE },
+  },
+};
 
 function useMediaQuery(query: string): boolean {
   return useSyncExternalStore(
@@ -160,20 +217,22 @@ function ThreeStudiesScrollDriven() {
         style={{
           top: 'var(--topbar-h)',
           height: 'calc(100vh - var(--topbar-h))',
+          contain: 'paint',
         }}
       >
         {isDesktop ? (
           <>
-            {/* Horizontal background photo full-bleed (desktop) */}
-            <div className="absolute inset-0 bg-[var(--color-paper-2)]">
-              <AnimatePresence mode="sync">
+            {/* Horizontal background photo full-bleed (desktop) — curtain rise with tilt */}
+            <div className="absolute inset-0 overflow-hidden bg-[var(--color-paper-2)]">
+              <AnimatePresence initial={false} mode="sync">
                 <motion.div
                   key={`bg-${step}`}
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 1.0, ease: EASE_EDITORIAL }}
-                  className="absolute inset-0"
+                  variants={bgVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="absolute inset-0 will-change-transform"
+                  style={{ transformOrigin: 'center bottom' }}
                 >
                   <Image
                     src={current.bg}
@@ -181,27 +240,30 @@ function ThreeStudiesScrollDriven() {
                     fill
                     priority={step === 0}
                     sizes="100vw"
-                    className="object-cover"
+                    className="object-cover sn-breathe"
                   />
                 </motion.div>
               </AnimatePresence>
-              <div className="absolute inset-0 bg-[var(--color-ink)]/15" aria-hidden />
+              <div className="absolute inset-0 bg-[var(--color-ink)]/15 z-[1]" aria-hidden />
             </div>
 
-            {/* Smaller portrait centered (desktop) */}
-            <div className="absolute inset-0 pointer-events-none">
-              <AnimatePresence mode="sync">
+            {/* Smaller portrait centered (desktop) — curtain rise with tilt, delayed */}
+            <div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-[2] overflow-hidden"
+              style={{
+                width: 'min(34vw, 380px)',
+                height: 'min(50vw, 560px)',
+              }}
+            >
+              <AnimatePresence initial={false} mode="sync">
                 <motion.div
                   key={`fg-${step}`}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.9, ease: EASE_EDITORIAL, delay: 0.12 }}
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-                  style={{
-                    width: 'min(34vw, 380px)',
-                    height: 'min(50vw, 560px)',
-                  }}
+                  variants={portraitVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="absolute inset-0 will-change-transform"
+                  style={{ transformOrigin: 'center bottom' }}
                 >
                   <div className="relative w-full h-full overflow-hidden border border-[var(--color-paper)]/15">
                     <Image
@@ -209,7 +271,7 @@ function ThreeStudiesScrollDriven() {
                       alt={current.label}
                       fill
                       sizes="40vw"
-                      className="object-cover"
+                      className="object-cover sn-breathe"
                     />
                   </div>
                 </motion.div>
@@ -217,15 +279,15 @@ function ThreeStudiesScrollDriven() {
             </div>
           </>
         ) : (
-          /* Mobile: portrait full-bleed */
+          /* Mobile: portrait full-bleed — opacity crossfade only */
           <div className="absolute inset-0 bg-[var(--color-paper-2)]">
             <AnimatePresence mode="sync">
               <motion.div
                 key={`mob-${step}`}
-                initial={{ opacity: 0, scale: 1.04 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.9, ease: EASE_EDITORIAL }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.7, ease: EASE }}
                 className="absolute inset-0"
               >
                 <Image
@@ -243,49 +305,80 @@ function ThreeStudiesScrollDriven() {
         )}
 
         {/* Step indicator (mono — material/machine data) */}
-        <div className="absolute right-[var(--gutter)] top-[var(--gutter)] font-mono text-[11px] tracking-[0.18em] uppercase text-[var(--color-paper)]/85">
+        <div className="absolute right-[var(--gutter)] top-[var(--gutter)] font-mono text-[11px] tracking-[0.18em] uppercase text-[var(--color-paper)]/85 z-10">
           {String(step + 1).padStart(2, '0')} / {String(STEP_COUNT).padStart(2, '0')}
         </div>
 
         {/* Eyebrow at top-left (display — section eyebrow) */}
-        <div className="absolute left-[var(--gutter)] top-[var(--gutter)]">
+        <div className="absolute left-[var(--gutter)] top-[var(--gutter)] z-10">
           <Eyebrow className="font-display uppercase text-[11px] tracking-[0.18em] font-medium text-[var(--color-paper)]/85">
             [ THREE STUDIES _03 ]
           </Eyebrow>
         </div>
 
-        {/* Text overlay bottom */}
-        <AnimatePresence mode="sync">
-          <motion.div
-            key={`txt-${step}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.7, ease: EASE_EDITORIAL, delay: 0.2 }}
-            className="absolute bottom-[var(--gutter)] left-[var(--gutter)] right-[var(--gutter)] text-[var(--color-paper)] flex flex-col md:flex-row md:justify-between md:items-end gap-4 pointer-events-none"
-          >
-            <div>
-              <div className="font-mono uppercase text-[11px] tracking-[0.18em] mb-3 opacity-85">
-                [ {current.label} _{String(step + 1).padStart(2, '0')} ]
+        {/* Desktop text overlays — center-left (label+title) and center-right (descr) */}
+        {isDesktop ? (
+          <AnimatePresence initial={false} mode="wait">
+            <motion.div
+              key={`txt-${step}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.5, ease: EASE, delay: 0.25 } }}
+              exit={{ opacity: 0, transition: { duration: 0.3, ease: EASE } }}
+              className="contents"
+            >
+              <div className="absolute left-[var(--gutter)] top-1/2 -translate-y-1/2 text-[var(--color-paper)] max-w-[16ch] z-10 pointer-events-none">
+                <div className="font-mono uppercase text-[12px] tracking-[0.18em] mb-3 opacity-85">
+                  [ {current.label} _{String(step + 1).padStart(2, '0')} ]
+                </div>
+                <h2
+                  style={{
+                    fontSize: 'var(--text-display-md)',
+                    lineHeight: 0.95,
+                    fontWeight: 500,
+                    letterSpacing: '-0.02em',
+                    paddingBottom: '0.12em',
+                  }}
+                  className="font-display"
+                >
+                  {current.title}
+                </h2>
               </div>
-              <h2
-                style={{
-                  fontSize: 'var(--text-display-md)',
-                  lineHeight: 1.0,
-                  fontWeight: 500,
-                  letterSpacing: '-0.02em',
-                  paddingBottom: '0.12em',
-                }}
-                className="font-display max-w-[16ch]"
-              >
-                {current.title}
-              </h2>
-            </div>
-            <p className="font-sans text-[14px] leading-[1.55] max-w-[40ch] hidden md:block">
-              {current.descr}
-            </p>
-          </motion.div>
-        </AnimatePresence>
+              <p className="absolute right-[var(--gutter)] top-1/2 -translate-y-1/2 text-[var(--color-paper)] font-sans text-[14px] leading-[1.55] max-w-[40ch] text-right z-10 pointer-events-none">
+                {current.descr}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        ) : (
+          /* Mobile: keep stacked bottom layout */
+          <AnimatePresence mode="sync">
+            <motion.div
+              key={`txt-mob-${step}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.7, ease: EASE, delay: 0.2 }}
+              className="absolute bottom-[var(--gutter)] left-[var(--gutter)] right-[var(--gutter)] text-[var(--color-paper)] flex flex-col gap-4 pointer-events-none z-10"
+            >
+              <div>
+                <div className="font-mono uppercase text-[11px] tracking-[0.18em] mb-3 opacity-85">
+                  [ {current.label} _{String(step + 1).padStart(2, '0')} ]
+                </div>
+                <h2
+                  style={{
+                    fontSize: 'var(--text-display-md)',
+                    lineHeight: 1.0,
+                    fontWeight: 500,
+                    letterSpacing: '-0.02em',
+                    paddingBottom: '0.12em',
+                  }}
+                  className="font-display max-w-[16ch]"
+                >
+                  {current.title}
+                </h2>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        )}
       </div>
     </section>
   );

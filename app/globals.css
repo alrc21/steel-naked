@@ -95,3 +95,17 @@ body {
   white-space: nowrap;
   border-width: 0;
 }
+
+@keyframes snBreathe {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.04); }
+}
+
+.sn-breathe {
+  animation: snBreathe 8s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sn-breathe { animation: none; }
+}
