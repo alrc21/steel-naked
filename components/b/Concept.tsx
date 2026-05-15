@@ -12,7 +12,7 @@ export function Concept() {
         <StackedHeadline
           lines={['One sheet.', 'One gesture.', 'One object.']}
           className="font-display text-[var(--color-ink)] tracking-[-0.025em] leading-[0.95] font-medium"
-          style={{ fontSize: 'clamp(56px, 9vw, 168px)' }}
+          style={{ fontSize: 'clamp(40px, 9vw, 168px)' }}
         />
         <Reveal className="mt-10 max-w-[60ch]">
           <p className="font-sans text-[15px] leading-[1.5] text-[var(--color-ink-2)]">

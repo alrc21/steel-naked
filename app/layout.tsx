@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { graphikWide, spaceGrotesk, spaceMono } from '@/lib/fonts';
 import { TweakPanel } from '@/components/shared/TweakPanel';
+import { SmoothScroll } from '@/components/shared/SmoothScroll';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       style={{ ['--font-wordmark' as string]: graphikWide.style.fontFamily }}
     >
       <body>
+        <SmoothScroll />
         {children}
         <TweakPanel />
       </body>

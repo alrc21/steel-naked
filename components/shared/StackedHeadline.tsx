@@ -16,6 +16,10 @@ type StackedHeadlineProps = {
  * Headline that reveals line-by-line. Each line is a clipping mask
  * containing a child that translates from y:100% → y:0%.
  * Stagger 60ms between lines, ease editorial, 800ms duration.
+ *
+ * Descender room: wrapper has padding-bottom + negative margin so that
+ * glyph descenders (g, p, y, j, q) are not clipped by overflow:hidden,
+ * while the visual line position remains unchanged.
  */
 export function StackedHeadline({
   lines,
@@ -40,7 +44,12 @@ export function StackedHeadline({
       {lines.map((line, i) => (
         <span
           key={i}
-          style={{ display: 'block', overflow: 'hidden' }}
+          style={{
+            display: 'block',
+            overflow: 'hidden',
+            paddingBottom: '0.18em',
+            marginBottom: '-0.12em',
+          }}
         >
           <motion.span
             style={{ display: 'block', willChange: 'transform' }}

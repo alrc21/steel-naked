@@ -20,7 +20,7 @@ export function About() {
               'sheet of stainless steel.',
             ]}
             className="font-display text-[var(--color-ink)] tracking-[-0.025em] leading-[0.95] font-medium max-w-[14ch]"
-            style={{ fontSize: 'clamp(56px, 9vw, 168px)' }}
+            style={{ fontSize: 'clamp(40px, 9vw, 168px)' }}
           />
         </div>
         <Reveal

@@ -18,7 +18,10 @@ export function Hero() {
       id="top"
       ref={ref}
       className="relative w-full bg-[var(--color-paper)]"
-      style={{ height: '92vh', padding: 'clamp(20px, 3vw, 32px)' }}
+      style={{
+        height: 'calc(92vh - var(--topbar-h))',
+        padding: 'clamp(16px, 4vw, 32px)',
+      }}
     >
       <div className="relative w-full h-full overflow-hidden bg-[var(--color-paper-2)]">
         <motion.div
@@ -32,6 +35,7 @@ export function Hero() {
             priority
             sizes="100vw"
             className="object-cover"
+            style={{ objectPosition: 'center 55%' }}
           />
         </motion.div>
       </div>

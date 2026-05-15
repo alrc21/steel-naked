@@ -21,6 +21,13 @@
 :root {
   --gutter: clamp(20px, 4vw, 56px);
   --section-pad: clamp(80px, 18vh, 240px);
+  --topbar-h: 56px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --topbar-h: 64px;
+  }
 }
 
 * { box-sizing: border-box; }

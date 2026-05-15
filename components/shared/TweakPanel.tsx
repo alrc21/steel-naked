@@ -102,7 +102,7 @@ export function TweakPanel() {
   if (!mounted) return null;
 
   return (
-    <>
+    <div className="hidden md:contents">
       {!open && (
         <button
           type="button"
@@ -193,7 +193,7 @@ export function TweakPanel() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

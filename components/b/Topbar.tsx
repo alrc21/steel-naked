@@ -37,29 +37,30 @@ export function Topbar() {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 px-[var(--gutter)] py-4 transition-colors duration-500 ${
-        dark ? 'text-[var(--color-paper)]' : 'text-[var(--color-ink)]'
+      className={`sticky top-0 inset-x-0 z-50 px-[var(--gutter)] h-14 md:h-16 flex items-center transition-colors duration-500 ${
+        dark
+          ? 'text-[var(--color-paper)] bg-[var(--color-stone)]'
+          : 'text-[var(--color-ink)] bg-[var(--color-paper)]'
       } ${scrolled ? 'border-b border-[var(--color-rule)]' : ''}`}
     >
-      <div className="grid grid-cols-3 items-center">
+      <div className="grid grid-cols-3 items-center w-full">
         <div className="flex items-center">
           <a href="#top" aria-label="Steel Naked — home" className="inline-flex items-center">
             <Image
               src="/images/logo.svg"
               alt="Steel Naked"
-              width={120}
-              height={22}
+              width={110}
+              height={32}
               priority
+              className="h-6 md:h-8 w-auto"
               style={{
-                height: 22,
-                width: 'auto',
                 filter: dark ? 'invert(1)' : 'none',
                 transition: 'filter 0.5s',
               }}
             />
           </a>
         </div>
-        <nav className="text-center text-[12px] font-normal">
+        <nav className="hidden md:block text-center text-[15px] md:text-[16px] font-normal tracking-[0]">
           <a href="#about">About</a>
           <span>, </span>
           <a href="#object">Object</a>
@@ -70,7 +71,7 @@ export function Topbar() {
           <span>, </span>
           <a href="#founders">Founders</a>
         </nav>
-        <div className="text-right uppercase text-[11px]">EN</div>
+        <div className="text-right uppercase text-[12px] md:text-[13px]">EN</div>
       </div>
     </header>
   );
