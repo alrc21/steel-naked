@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #f5f2eb;
-  --color-paper-2: #ebe6dc;
+  --color-paper: #E9E5DA;
+  --color-paper-2: #DDD8CC;
   --color-ink: #0d0c0a;
   --color-ink-2: #2a2520;
   --color-mute: #8a8378;
   --color-steel: #c5c0b6;
+  --color-stone: #7A7B6F;
   --color-accent: #c0573a;
   --color-rule: oklch(0.15 0.005 60 / 0.08);
 
@@ -14,7 +15,7 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
 
-  --ease-editorial: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
@@ -57,3 +58,7 @@ body {
 .font-display { font-family: var(--font-display), serif; }
 .font-sans { font-family: var(--font-sans), system-ui, sans-serif; }
 .font-mono { font-family: var(--font-mono), ui-monospace, monospace; }
+
+:where(.font-b) {
+  --font-display: var(--font-sans);
+}

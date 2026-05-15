@@ -7,9 +7,9 @@ const phrases = [
   'One sheet.',
   'One gesture.',
   'One object.',
-  'Brutally permanent.',
   'Built beyond time.',
   'The future should last longer.',
+  'Near-future. Brutally permanent.',
 ] as const;
 
 export function Manifesto() {

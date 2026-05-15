@@ -5,9 +5,9 @@ import { Reveal } from '@/components/shared/Reveal';
 import { PixelateFilter } from '@/components/shared/PixelateFilter';
 
 const plates = [
-  { src: '/images/bg01.webp', alt: 'Steel Naked™ — plate 01', label: '_01 · LOUNGE NO.1 · STAINLESS / FOLDED', aspect: '16/10' },
-  { src: '/images/bg02.webp', alt: 'Steel Naked™ — plate 02', label: '_02 · THE MARK · 304 / BRUSHED', aspect: '21/9' },
-  { src: '/images/bg03.webp', alt: 'Steel Naked™ — plate 03', label: '_03 · THE FOLDED PLATE · 2.5MM', aspect: '3/2' },
+  { src: '/images/bg01.webp', alt: 'Steel Naked™ — plate 01', label: '_01 · LOUNGE NO.1 · STAINLESS / 304 / 2.5MM', aspect: '16/10' },
+  { src: '/images/bg02.webp', alt: 'Steel Naked™ — plate 02', label: '_02 · THE MARK · STAINLESS / 304 / 2.5MM', aspect: '21/9' },
+  { src: '/images/bg03.webp', alt: 'Steel Naked™ — plate 03', label: '_03 · THE FOLDED PLATE · STAINLESS / 304 / 2.5MM', aspect: '3/2' },
 ] as const;
 
 export function PlateGrid() {

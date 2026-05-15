@@ -18,7 +18,7 @@ export function WaitlistA() {
         </div>
         <div className="md:col-span-7 md:col-start-6">
           <p className="font-mono uppercase tracking-[0.10em] text-[12px] text-[var(--color-paper)]/70 mb-8 max-w-md">
-            Be the first to access the launch, private previews and founder release. Limited edition designed and crafted in Valencia.
+            No spam. Only launch updates, previews and founder access.
           </p>
           <WaitlistForm source="a" variant="brutalist" submitLabel="→" />
         </div>

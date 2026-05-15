@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 export function Topbar() {
   const [dark, setDark] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const sections = document.querySelectorAll('[data-dark="true"]');
@@ -19,29 +20,45 @@ export function Topbar() {
         }
         setDark(false);
       },
-      { threshold: [0.4] }
+      { threshold: [0.3] }
     );
 
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 0);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 px-[var(--gutter)] py-5 transition-colors duration-500 ${
+      className={`fixed top-0 inset-x-0 z-50 px-[var(--gutter)] py-4 transition-colors duration-500 ${
         dark ? 'text-[var(--color-paper)]' : 'text-[var(--color-ink)]'
-      }`}
+      } ${scrolled ? 'border-b border-[var(--color-rule)]' : ''}`}
     >
-      <div className="grid grid-cols-3 items-center text-[11px] font-sans tracking-[0.04em]">
-        <nav className="flex gap-6 uppercase">
-          <a href="#object">object</a>
-          <a href="#studio">studio</a>
-          <a href="#founders">founders</a>
-        </nav>
-        <div className="text-center font-display tracking-[-0.02em] text-[14px]">
-          Steel Naked
+      <div className="grid grid-cols-3 items-center">
+        <div
+          className="text-[13px] font-bold tracking-[0]"
+          style={{ fontFamily: 'var(--font-wordmark, var(--font-display))' }}
+        >
+          STEEL NAKED
         </div>
-        <div className="text-right uppercase">EN</div>
+        <nav className="text-center text-[12px] font-normal">
+          <a href="#about">About</a>
+          <span>, </span>
+          <a href="#object">Object</a>
+          <span>, </span>
+          <a href="#materiality">Materiality</a>
+          <span>, </span>
+          <a href="#studio">Studio</a>
+          <span>, </span>
+          <a href="#founders">Founders</a>
+        </nav>
+        <div className="text-right uppercase text-[11px]">EN</div>
       </div>
     </header>
   );

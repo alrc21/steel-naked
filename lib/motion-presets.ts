@@ -3,11 +3,11 @@ import type { Variants } from 'motion/react';
 const EASE = [0.2, 0.7, 0.2, 1] as const;
 
 export const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 14 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 1, ease: EASE as unknown as [number, number, number, number] },
+    transition: { duration: 0.8, ease: EASE as unknown as [number, number, number, number] },
   },
 };
 

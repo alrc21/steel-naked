@@ -92,7 +92,7 @@ export function WaitlistForm({
                 className={`px-4 text-[var(--color-paper)] transition-opacity disabled:opacity-50 ${
                   isBrutalist
                     ? 'font-mono uppercase tracking-[0.16em] text-[13px]'
-                    : 'font-display italic text-[15px]'
+                    : 'font-sans text-[15px] font-medium'
                 }`}
               >
                 {status === 'loading' ? '…' : submitLabel}

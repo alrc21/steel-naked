@@ -3,7 +3,7 @@ import { fadeUp, staggerChildren, wordReveal } from '@/lib/motion-presets';
 
 describe('motion-presets', () => {
   it('fadeUp returns variants with hidden y offset and visible y zero', () => {
-    expect(fadeUp.hidden).toEqual({ opacity: 0, y: 28 });
+    expect(fadeUp.hidden).toEqual({ opacity: 0, y: 14 });
     expect(fadeUp.visible).toMatchObject({ opacity: 1, y: 0 });
   });
 
