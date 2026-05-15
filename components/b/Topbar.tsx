@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 export function Topbar() {
@@ -41,11 +42,22 @@ export function Topbar() {
       } ${scrolled ? 'border-b border-[var(--color-rule)]' : ''}`}
     >
       <div className="grid grid-cols-3 items-center">
-        <div
-          className="text-[13px] font-bold tracking-[0]"
-          style={{ fontFamily: 'var(--font-wordmark, var(--font-display))' }}
-        >
-          STEEL NAKED
+        <div className="flex items-center">
+          <a href="#top" aria-label="Steel Naked — home" className="inline-flex items-center">
+            <Image
+              src="/images/logo.svg"
+              alt="Steel Naked"
+              width={120}
+              height={22}
+              priority
+              style={{
+                height: 22,
+                width: 'auto',
+                filter: dark ? 'invert(1)' : 'none',
+                transition: 'filter 0.5s',
+              }}
+            />
+          </a>
         </div>
         <nav className="text-center text-[12px] font-normal">
           <a href="#about">About</a>

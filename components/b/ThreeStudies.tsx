@@ -1,28 +1,31 @@
 'use client';
 
 import Image from 'next/image';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
+import { Eyebrow } from '@/components/shared/Eyebrow';
 
 const studies = [
   {
-    back: '/images/bg04.webp',
-    front: '/images/bg01.webp',
+    front: '/images/bg04.webp',
     label: 'LOUNGE',
+    title: 'One sheet.',
     descr:
-      'The Brutalist Recline — a single fold defines back and seat. Tension and curvature held by 2.5mm of 304 stainless.',
+      'Steel Naked is built from a single folded sheet of stainless steel, transforming industrial material into a collectible seating object.',
   },
   {
-    back: '/images/bg05.webp',
-    front: '/images/bg02.webp',
+    front: '/images/bg05.webp',
     label: 'MARK',
+    title: 'One gesture.',
     descr:
-      'A grounded gesture. A heavier presence. Reads as monolith from afar; geometry on approach.',
+      'The structure is reduced to its purest expression: a continuous line shaped through precision bending, tension and balance.',
   },
   {
-    back: '/images/bg06.webp',
-    front: '/images/bg03.webp',
+    front: '/images/bg06.webp',
     label: 'PLATE',
+    title: 'One object.',
     descr:
-      'The original study. One continuous sheet, folded to support the body without joinery or fasteners.',
+      'An object that feels both brutal and refined. Architectural yet sensual. Cold material made human through form.',
   },
 ] as const;
 
@@ -31,9 +34,9 @@ export function ThreeStudies() {
     <div id="object">
       <section className="py-[var(--section-pad)] px-[var(--gutter)] bg-[var(--color-paper)]">
         <div className="max-w-[1400px] mx-auto">
-          <div className="font-mono uppercase text-[11px] tracking-[0.18em] text-[var(--color-mute)] mb-6">
+          <Eyebrow className="font-mono uppercase text-[11px] tracking-[0.18em] text-[var(--color-mute)] mb-6">
             [ THREE STUDIES _03 ]
-          </div>
+          </Eyebrow>
           <p className="font-sans text-[15px] leading-[1.5] text-[var(--color-ink-2)] max-w-[60ch]">
             An object that feels both brutal and refined. Architectural yet sensual. Cold material made human through form.
           </p>
@@ -50,84 +53,65 @@ export function ThreeStudies() {
 type StudyType = (typeof studies)[number];
 
 function StudyPane({ s, i }: { s: StudyType; i: number }) {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.04]);
+
   return (
     <section
-      className="relative overflow-hidden bg-[var(--color-ink)] group"
+      ref={ref}
+      className="relative overflow-hidden bg-[var(--color-paper)]"
       style={{ position: 'sticky', top: 0, height: '100vh' }}
     >
       <div
-        className="absolute"
+        className="h-full grid grid-cols-1 md:grid-cols-2 gap-0"
         style={{
-          inset: '-10%',
-          transform: `rotate(${i % 2 === 0 ? -6 : 5}deg) scale(1.3)`,
-          opacity: 0.95,
+          paddingLeft: 'var(--gutter)',
+          paddingRight: 'var(--gutter)',
+          paddingTop: 'clamp(80px, 10vh, 140px)',
+          paddingBottom: 'clamp(80px, 10vh, 140px)',
+          columnGap: 'clamp(24px, 4vw, 64px)',
         }}
       >
-        <Image
-          src={s.back}
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
+        <div className="relative w-full h-full overflow-hidden bg-[var(--color-paper-2)]">
+          <motion.div
+            className="absolute inset-0"
+            style={{ y, scale, willChange: 'transform' }}
+          >
+            <Image
+              src={s.front}
+              alt={s.label}
+              fill
+              sizes="(min-width:768px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </motion.div>
+        </div>
+        <div className="flex flex-col justify-between py-2 md:py-6">
+          <Eyebrow className="font-mono uppercase text-[11px] tracking-[0.18em] text-[var(--color-mute)]">
+            [ {s.label} _0{i + 1} ]
+          </Eyebrow>
+          <div>
+            <h3
+              className="font-display text-[var(--color-ink)] font-medium"
+              style={{
+                fontSize: 'clamp(40px, 5vw, 80px)',
+                lineHeight: 0.95,
+                letterSpacing: '-0.025em',
+              }}
+            >
+              {s.title}
+            </h3>
+            <p className="mt-6 font-sans text-[15px] leading-[1.55] text-[var(--color-ink-2)] max-w-[40ch]">
+              {s.descr}
+            </p>
+          </div>
+        </div>
       </div>
-
-      <div
-        className="absolute overflow-hidden"
-        style={{
-          left: '50%',
-          top: '50%',
-          translate: '-50% -50%',
-          width: '40vw',
-          height: '60vh',
-        }}
-      >
-        <Image
-          src={s.front}
-          alt={s.label}
-          fill
-          sizes="40vw"
-          className="object-cover"
-        />
-      </div>
-
-      <div
-        className="absolute text-[var(--color-paper)] font-sans text-[12px] font-medium uppercase"
-        style={{
-          left: 'clamp(20px, 3vw, 56px)',
-          top: '50%',
-          transform: 'translateY(-50%) rotate(-90deg)',
-          transformOrigin: 'left center',
-          letterSpacing: '0.04em',
-        }}
-      >
-        [ {s.label} ]
-      </div>
-
-      <div
-        className="absolute left-1/2 -translate-x-1/2 text-center text-[var(--color-paper)] font-sans"
-        style={{
-          bottom: '8vh',
-          fontSize: '15px',
-          maxWidth: '60ch',
-          lineHeight: 1.5,
-        }}
-      >
-        <span className="relative inline-block pb-1">
-          {s.descr}
-          <span
-            className="absolute left-0 bottom-0 h-px bg-[var(--color-paper)] transition-[width] duration-700 ease-[var(--ease-editorial)]"
-            style={{ width: 0 }}
-            data-underline
-          />
-        </span>
-      </div>
-
-      <style jsx>{`
-        .group:hover :global([data-underline]) {
-          width: 100%;
-        }
-      `}</style>
     </section>
   );
 }

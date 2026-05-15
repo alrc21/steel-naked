@@ -1,3 +1,7 @@
+'use client';
+
+import { motion } from 'motion/react';
+
 export function FooterB() {
   return (
     <footer
@@ -33,9 +37,13 @@ export function FooterB() {
           </div>
         </div>
       </div>
-      <div
+      <motion.div
         aria-hidden
         className="absolute pointer-events-none"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 0.12, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         style={{
           left: 0,
           right: 0,
@@ -44,14 +52,13 @@ export function FooterB() {
           fontWeight: 800,
           fontSize: 'clamp(120px, 24vw, 360px)',
           color: 'var(--color-ink)',
-          opacity: 0.12,
           whiteSpace: 'nowrap',
           lineHeight: 1,
           textAlign: 'center',
         }}
       >
         STEEL NAKED
-      </div>
+      </motion.div>
     </footer>
   );
 }
