@@ -13,9 +13,10 @@
   --color-accent-2: #2B1A5B;       /* deep indigo — reserved secondary (not auto-applied) */
   --color-rule: oklch(0.2 0 0 / 0.08); /* neutral hairline */
 
-  --font-display: var(--font-display);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  /* Font tokens NOT redeclared here. next/font/local injects
+     --font-display / --font-sans / --font-mono on <html>.
+     Redeclaring them in @theme creates a circular self-reference
+     that breaks the cascade and falls back to serif/system. */
 
   --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
 }
