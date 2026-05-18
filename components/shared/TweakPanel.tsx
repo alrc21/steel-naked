@@ -103,25 +103,6 @@ export function TweakPanel() {
 
   return (
     <div className="hidden md:contents">
-      {!open && (
-        <button
-          type="button"
-          aria-label="Open tweak panel"
-          onClick={() => setOpen(true)}
-          style={{
-            position: 'fixed',
-            bottom: 16,
-            right: 16,
-            width: 12,
-            height: 12,
-            padding: 0,
-            background: '#0e0e0e',
-            border: 'none',
-            zIndex: 70,
-            cursor: 'pointer',
-          }}
-        />
-      )}
       {open && (
         <div
           role="dialog"
