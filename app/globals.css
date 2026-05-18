@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #E9E5DA;
-  --color-paper-2: #DDD8CC;
-  --color-ink: #0d0c0a;
-  --color-ink-2: #2a2520;
-  --color-mute: #8a8378;
-  --color-steel: #c5c0b6;
-  --color-stone: #5e6056;
-  --color-accent: #c0573a;
-  --color-rule: oklch(0.15 0.005 60 / 0.08);
+  --color-paper: #FFF7D4;          /* cream warm yellow — main bg of light sections */
+  --color-paper-2: #E6E6E6;        /* neutral gray — alt light bg if needed */
+  --color-ink: #141414;            /* near-black — body text and headlines */
+  --color-ink-2: #4D4D4D;          /* graphite — secondary text */
+  --color-mute: #4D4D4D;           /* same as ink-2 — replaces old warm mute */
+  --color-steel: #CCCCCC;          /* mid gray — for rules / hairlines */
+  --color-stone: #125B59;          /* deep teal — dark sections bg */
+  --color-accent: #BBFF00;         /* electric lime — accent for "Brutally permanent" + focus/hover */
+  --color-accent-2: #2B1A5B;       /* deep indigo — secondary accent reserved */
+  --color-rule: oklch(0.2 0 0 / 0.08); /* neutral hairline */
 
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
@@ -73,9 +74,6 @@ body {
 .font-sans { font-family: var(--font-sans), system-ui, sans-serif; }
 .font-mono { font-family: var(--font-mono), ui-monospace, monospace; }
 
-:where(.font-b) {
-  --font-display: var(--font-sans);
-}
 
 :focus-visible {
   outline: 1px solid currentColor;
