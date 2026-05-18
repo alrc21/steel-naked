@@ -48,12 +48,22 @@ export function Topbar() {
 
   return (
     <header
-      className={`sticky top-0 inset-x-0 z-50 px-[var(--gutter)] flex items-center transition-colors duration-500 ${
+      className={`sticky top-0 inset-x-0 z-50 px-[var(--gutter)] flex items-center ${
         dark
-          ? 'text-[var(--color-paper)] bg-[var(--color-stone)]'
+          ? 'text-[var(--color-paper-2)] bg-[var(--color-ink)]'
           : 'text-[var(--color-ink)] bg-[var(--color-paper)]'
-      } ${scrolled ? 'border-b border-[var(--color-rule)]' : ''}`}
-      style={{ height: 'var(--topbar-h)' }}
+      } ${
+        scrolled
+          ? dark
+            ? 'border-b border-[rgba(255,247,212,0.12)]'
+            : 'border-b border-[var(--color-rule)]'
+          : ''
+      }`}
+      style={{
+        height: 'var(--topbar-h)',
+        transition:
+          'background-color 320ms var(--ease-editorial, cubic-bezier(0.4,0,0.2,1)), color 320ms var(--ease-editorial, cubic-bezier(0.4,0,0.2,1))',
+      }}
     >
       <div className="grid grid-cols-3 items-center w-full">
         <div className="flex items-center">
@@ -67,37 +77,29 @@ export function Topbar() {
               className="h-6 md:h-8 w-auto"
               style={{
                 filter: dark ? 'invert(1)' : 'none',
-                transition: 'filter 0.5s',
+                transition: 'filter 320ms var(--ease-editorial, cubic-bezier(0.4,0,0.2,1))',
               }}
             />
           </a>
         </div>
         <nav
           aria-label="Primary"
-          className="hidden md:block text-center text-[15px] md:text-[16px] font-normal tracking-[0]"
+          className="hidden md:block text-center font-mono uppercase text-[11px] tracking-[0.18em]"
         >
           <ul
             role="list"
-            className="inline-flex gap-1 [&>li:not(:last-child)]:after:content-[','] [&>li:not(:last-child)]:after:mr-1"
+            className="inline-flex items-center gap-0"
           >
-            <li>
-              <a href="#about">About</a>
-            </li>
-            <li>
-              <a href="#object">Object</a>
-            </li>
-            <li>
-              <a href="#materiality">Materiality</a>
-            </li>
-            <li>
-              <a href="#studio">Studio</a>
-            </li>
-            <li>
-              <a href="#founders">Founders</a>
-            </li>
+            <li><a href="#about" className="hover:opacity-60 transition-opacity duration-200">Concept</a></li>
+            <li className="mx-2 opacity-40">—</li>
+            <li><a href="#object" className="hover:opacity-60 transition-opacity duration-200">Object</a></li>
+            <li className="mx-2 opacity-40">—</li>
+            <li><a href="#materiality" className="hover:opacity-60 transition-opacity duration-200">Philosophy</a></li>
+            <li className="mx-2 opacity-40">—</li>
+            <li><a href="#studio" className="hover:opacity-60 transition-opacity duration-200">Contact</a></li>
           </ul>
         </nav>
-        <div className="text-right uppercase text-[12px] md:text-[13px] hidden sm:block">EN</div>
+        <div className="text-right font-mono uppercase text-[11px] tracking-[0.18em] hidden sm:block">EN</div>
       </div>
     </header>
   );
