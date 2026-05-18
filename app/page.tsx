@@ -2,11 +2,13 @@ import type { Metadata } from 'next';
 import { Topbar } from '@/components/b/Topbar';
 import { Hero } from '@/components/b/Hero';
 import { About } from '@/components/b/About';
+import { BrutallyPermanent } from '@/components/b/BrutallyPermanent';
 import { Concept } from '@/components/b/Concept';
-import { ThreeStudies } from '@/components/b/ThreeStudies';
-import { Materiality } from '@/components/b/Materiality';
-import { Experience } from '@/components/b/Experience';
-import { Philosophy } from '@/components/b/Philosophy';
+// Temporarily disabled while we refine the v2 layout:
+// import { ThreeStudies } from '@/components/b/ThreeStudies';
+// import { Materiality } from '@/components/b/Materiality';
+// import { Experience } from '@/components/b/Experience';
+// import { Philosophy } from '@/components/b/Philosophy';
 import { WaitlistB } from '@/components/b/WaitlistB';
 import { FooterB } from '@/components/b/FooterB';
 
@@ -22,11 +24,12 @@ export default function Home() {
       <Topbar />
       <Hero />
       <About />
+      <BrutallyPermanent />
       <Concept />
-      <ThreeStudies />
-      <Materiality />
-      <Experience />
-      <Philosophy />
+      {/* <ThreeStudies /> */}
+      {/* <Materiality /> */}
+      {/* <Experience /> */}
+      {/* <Philosophy /> */}
       <WaitlistB />
       <FooterB />
     </main>
