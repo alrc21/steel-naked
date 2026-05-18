@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #FFF7D4;          /* cream warm yellow — main bg of light sections */
-  --color-paper-2: #E6E6E6;        /* neutral gray — alt light bg if needed */
+  --color-paper: #E6E6E6;          /* neutral gray — main bg of light sections */
+  --color-paper-2: #FFF7D4;        /* cream warm — alt light bg / accent paper */
   --color-ink: #141414;            /* near-black — body text and headlines */
   --color-ink-2: #4D4D4D;          /* graphite — secondary text */
-  --color-mute: #4D4D4D;           /* same as ink-2 — replaces old warm mute */
+  --color-mute: #4D4D4D;           /* same as ink-2 — secondary text */
   --color-steel: #CCCCCC;          /* mid gray — for rules / hairlines */
-  --color-stone: #125B59;          /* deep teal — dark sections bg */
-  --color-accent: #BBFF00;         /* electric lime — accent for "Brutally permanent" + focus/hover */
-  --color-accent-2: #2B1A5B;       /* deep indigo — secondary accent reserved */
+  --color-dark: #4D4D4D;           /* graphite dark — bg for dark sections (waitlist/footer) */
+  --color-stone: #125B59;          /* deep teal — reserved accent (hovers, hairlines) */
+  --color-accent: #BBFF00;         /* electric lime — primary accent ("Brutally permanent" + CTAs) */
+  --color-accent-2: #2B1A5B;       /* deep indigo — reserved secondary (not auto-applied) */
   --color-rule: oklch(0.2 0 0 / 0.08); /* neutral hairline */
 
   --font-display: var(--font-display);
