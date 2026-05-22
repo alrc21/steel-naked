@@ -5,43 +5,22 @@
  *
  * Layout: 12-col grid, desktop only.
  *   – Cols 1–8 : headline block (Graphik Wide Semibold + inline eyebrow)
- *   – Cols 10–12: Space Mono uppercase caption, top-aligned ~55% from top
+ *   – Cols 10–12: Space Mono uppercase caption, vertically centered with headline
  */
 
 export function Concept() {
   return (
     <section
       id="concept"
-      className="relative min-h-screen py-[var(--section-pad-generous)] px-[var(--gutter)] bg-[var(--color-paper)]"
+      className="relative min-h-screen py-[var(--section-pad-tight)] px-[var(--gutter)] bg-[var(--color-paper)]"
     >
-      {/* ── Section eyebrow – top-left, Space Mono, matches topbar convention ── */}
-      <p
-        className="absolute font-mono uppercase text-[var(--color-ink)] tracking-[0.18em]"
-        style={{
-          fontSize: '11px',
-          top: 'calc(var(--topbar-h) + 24px)',
-          left: 'var(--gutter)',
-          letterSpacing: '0.18em',
-        }}
-      >
-        _THE OBJECT / 03
-      </p>
-
-      {/* ── 12-col grid ── */}
-      <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-16">
+      {/* ── 12-col grid, vertically centered ── */}
+      <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-12 min-h-[calc(100vh-2*var(--section-pad-tight))] items-center">
 
         {/* ── Left: Headline block (cols 1–8) ── */}
-        <div className="md:col-span-8 flex flex-col justify-start">
+        <div className="md:col-span-8">
 
-          {/* Inline eyebrow: Graphik Wide Regular, lowercase, mute */}
-          <p
-            className="font-display lowercase text-[var(--color-mute)]"
-            style={{ fontSize: '11px', letterSpacing: '0.18em', marginBottom: '0.6em' }}
-          >
-            _the concept
-          </p>
-
-          {/* Massive headline — Graphik Wide Semibold 600 */}
+          {/* Eyebrow inline with headline */}
           <h2
             className="font-display text-[var(--color-ink)]"
             style={{
@@ -49,18 +28,30 @@ export function Concept() {
               fontWeight: 600,
               lineHeight: 1.05,
               letterSpacing: '-0.01em',
+              margin: 0,
             }}
           >
-            <span style={{ display: 'block' }}>One sheet. One gesture.</span>
-            <span style={{ display: 'block' }}>One object.</span>
+            <span
+              style={{
+                fontSize: 'clamp(11px, 0.9vw, 14px)',
+                fontWeight: 400,
+                letterSpacing: '0.04em',
+                color: 'var(--color-ink-2)',
+                textTransform: 'lowercase',
+                marginRight: '0.4em',
+                verticalAlign: 'baseline',
+                display: 'inline',
+              }}
+            >
+              _the concept
+            </span>
+            One sheet. One gesture.<br />
+            One object.
           </h2>
         </div>
 
-        {/* ── Right: Space Mono caption block (cols 10–12), positioned ~55% from top ── */}
-        <div
-          className="md:col-span-3 md:col-start-10 flex flex-col justify-start"
-          style={{ paddingTop: 'clamp(0px, 10vh, 120px)' }}
-        >
+        {/* ── Right: Space Mono caption block (cols 10–12), vertically centered ── */}
+        <div className="md:col-span-3 md:col-start-10">
           <p
             className="font-mono uppercase text-[var(--color-mute)]"
             style={{
@@ -70,14 +61,14 @@ export function Concept() {
               maxWidth: '36ch',
             }}
           >
-            BUILT FROM A SINGLE FOLDED SHEET
-            OF STAINLESS STEEL,
-            TRANSFORMING INDUSTRIAL MATERIAL
-            INTO A COLLECTIBLE SEATING OBJECT.
-            THE STRUCTURE IS REDUCED TO
-            ITS PUREST EXPRESSION:
-            A CONTINUOUS LINE
-            SHAPED THROUGH PRECISION
+            BUILT FROM A SINGLE FOLDED SHEET<br />
+            OF STAINLESS STEEL,<br />
+            TRANSFORMING INDUSTRIAL MATERIAL<br />
+            INTO A COLLECTIBLE SEATING OBJECT.<br />
+            THE STRUCTURE IS REDUCED TO<br />
+            ITS PUREST EXPRESSION:<br />
+            A CONTINUOUS LINE<br />
+            SHAPED THROUGH PRECISION<br />
             BENDING, TENSION AND BALANCE.
           </p>
         </div>

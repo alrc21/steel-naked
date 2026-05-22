@@ -6,18 +6,18 @@ export function About() {
       id="about"
       className="relative bg-[var(--color-paper)]"
       style={{
-        minHeight: '100svh',
-        paddingTop: 'var(--section-pad-generous)',
-        paddingBottom: 'var(--section-pad-generous)',
+        minHeight: '100vh',
+        paddingTop: 'var(--section-pad-tight)',
+        paddingBottom: 'var(--section-pad-tight)',
         paddingLeft: 'var(--gutter)',
         paddingRight: 'var(--gutter)',
       }}
     >
-      {/* Top-left label: Space Mono, uppercase, 11px */}
+      {/* Top-left absolutely-positioned label */}
       <p
         className="font-mono uppercase text-[var(--color-ink)] absolute"
         style={{
-          top: 'var(--section-pad-generous)',
+          top: 'calc(var(--topbar-h) + 20px)',
           left: 'var(--gutter)',
           fontSize: '11px',
           letterSpacing: '0.18em',
@@ -30,30 +30,14 @@ export function About() {
 
       {/* 12-col grid */}
       <div
-        className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12"
-        style={{ gap: 'var(--gutter)' }}
+        className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 h-full"
+        style={{ gap: 'var(--gutter)', minHeight: 'calc(100vh - var(--section-pad-tight) * 2)' }}
       >
-        {/* LEFT — eyebrow + editorial headline, cols 1–7 */}
+        {/* LEFT — inline eyebrow + editorial headline, cols 1–7 */}
         <div
-          className="md:col-span-7 flex flex-col justify-start"
-          style={{ paddingTop: 'clamp(64px, 12vh, 160px)' }}
+          className="md:col-span-7 flex flex-col justify-center"
         >
-          {/* Eyebrow: Graphik Wide Regular, lowercase, ink-2 */}
-          <p
-            className="font-display text-[var(--color-ink-2)]"
-            style={{
-              fontSize: 'clamp(12px, 1vw, 16px)',
-              fontWeight: 400,
-              letterSpacing: '0.04em',
-              lineHeight: 1,
-              marginBottom: '0.3em',
-              textTransform: 'lowercase',
-            }}
-          >
-            _about steel naked
-          </p>
-
-          {/* Massive editorial headline: Graphik Wide Semibold */}
+          {/* Eyebrow inline with headline as a single h2 */}
           <h2
             className="font-display text-[var(--color-ink)]"
             style={{
@@ -64,6 +48,20 @@ export function About() {
               margin: 0,
             }}
           >
+            <span
+              style={{
+                fontSize: 'clamp(11px, 0.9vw, 14px)',
+                fontWeight: 400,
+                letterSpacing: '0.04em',
+                color: 'var(--color-ink-2)',
+                textTransform: 'lowercase',
+                marginRight: '0.4em',
+                verticalAlign: 'baseline',
+                display: 'inline',
+              }}
+            >
+              _about steel naked
+            </span>
             Near-future seating
             <br />
             designed
@@ -74,16 +72,13 @@ export function About() {
 
         {/* RIGHT — portrait chair image + caption, cols 9–12 */}
         <div
-          className="md:col-span-4 md:col-start-9 flex flex-col"
-          style={{
-            alignItems: 'flex-start',
-            paddingTop: 'clamp(64px, 12vh, 160px)',
-          }}
+          className="md:col-span-4 md:col-start-9 flex flex-col justify-center items-start"
         >
           {/* Vertical portrait chair image */}
           <div
-            className="relative w-full overflow-hidden"
+            className="relative overflow-hidden"
             style={{
+              width: '100%',
               maxWidth: '280px',
               aspectRatio: '3 / 4',
             }}
@@ -141,19 +136,21 @@ export function About() {
               BOTH PHYSICALLY AND AESTHETICALLY.
             </p>
           </div>
-
-          {/* Bottom-right page indicator dot */}
-          <div
-            style={{
-              width: '8px',
-              height: '8px',
-              backgroundColor: 'var(--color-ink)',
-              marginTop: 'clamp(40px, 6vh, 80px)',
-              flexShrink: 0,
-            }}
-          />
         </div>
       </div>
+
+      {/* Bottom-right page indicator dot — absolutely positioned */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 'var(--section-pad-tight)',
+          right: 'var(--gutter)',
+          width: '8px',
+          height: '8px',
+          backgroundColor: 'var(--color-ink)',
+          flexShrink: 0,
+        }}
+      />
     </section>
   );
 }
