@@ -88,8 +88,16 @@ export function TweakPanel() {
   }, []);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // eslint-disable-next-line no-console
+      console.log('%c[TweakPanel] Shift+T o ? para abrir', 'color:#BBFF00;font-family:monospace');
+    }
     function onKey(e: KeyboardEvent) {
-      if (e.key === '?') {
+      const target = e.target as HTMLElement | null;
+      if (target && /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName)) return;
+      const isQuestion = e.key === '?';
+      const isShiftT = e.shiftKey && (e.key === 'T' || e.key === 't');
+      if (isQuestion || isShiftT) {
         e.preventDefault();
         setOpen((o) => !o);
       }
