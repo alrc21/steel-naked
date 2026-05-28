@@ -42,7 +42,7 @@ export function About() {
             className="font-display text-[var(--color-ink)]"
             style={{
               fontSize: 'clamp(40px, 5.5vw, 88px)',
-              fontWeight: 600,
+              fontWeight: 300,
               lineHeight: 1.05,
               letterSpacing: '-0.01em',
               margin: 0,
@@ -72,7 +72,7 @@ export function About() {
 
         {/* RIGHT — portrait chair image + caption, cols 9–12 */}
         <div
-          className="md:col-span-4 md:col-start-9 flex flex-col justify-center items-start"
+          className="md:col-span-4 md:col-start-9 flex flex-col justify-between items-start h-full"
         >
           {/* Vertical portrait chair image */}
           <div
@@ -96,7 +96,6 @@ export function About() {
           {/* Space Mono UPPERCASE caption */}
           <div
             style={{
-              marginTop: 'clamp(40px, 6vh, 80px)',
               maxWidth: '36ch',
             }}
           >

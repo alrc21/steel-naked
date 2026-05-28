@@ -14,11 +14,23 @@ const DEFAULTS = {
   display: 'graphik-wide' as FontKey,
   body: 'space-grotesk' as FontKey,
   mono: 'space-mono' as FontKey,
+  displayWeight: 300,
 };
 
 const STORAGE_KEY = 'sn:tweak';
 
-type State = { display: FontKey; body: FontKey; mono: FontKey };
+type State = { display: FontKey; body: FontKey; mono: FontKey; displayWeight: number };
+
+const WEIGHTS: ReadonlyArray<{ value: number; label: string }> = [
+  { value: 100, label: '100 Thin' },
+  { value: 200, label: '200 Extralight' },
+  { value: 300, label: '300 Light' },
+  { value: 400, label: '400 Regular' },
+  { value: 500, label: '500 Medium' },
+  { value: 600, label: '600 Semibold' },
+  { value: 700, label: '700 Bold' },
+  { value: 900, label: '900 Black' },
+];
 
 function applyToRoot(state: State) {
   if (typeof document === 'undefined') return;
@@ -26,6 +38,12 @@ function applyToRoot(state: State) {
   root.style.setProperty('--font-display', FONT_VAR[state.display]);
   root.style.setProperty('--font-sans', FONT_VAR[state.body]);
   root.style.setProperty('--font-mono', FONT_VAR[state.mono]);
+  root.style.setProperty('--font-display-weight', String(state.displayWeight));
+  if (state.displayWeight !== DEFAULTS.displayWeight) {
+    root.dataset.weightOverride = '';
+  } else {
+    delete root.dataset.weightOverride;
+  }
 }
 
 function clearRoot() {
@@ -34,6 +52,8 @@ function clearRoot() {
   root.style.removeProperty('--font-display');
   root.style.removeProperty('--font-sans');
   root.style.removeProperty('--font-mono');
+  root.style.removeProperty('--font-display-weight');
+  delete root.dataset.weightOverride;
 }
 
 function readStored(): State {
@@ -46,6 +66,8 @@ function readStored(): State {
       display: parsed.display ?? DEFAULTS.display,
       body: parsed.body ?? DEFAULTS.body,
       mono: parsed.mono ?? DEFAULTS.mono,
+      displayWeight:
+        typeof parsed.displayWeight === 'number' ? parsed.displayWeight : DEFAULTS.displayWeight,
     };
   } catch {
     return DEFAULTS;
@@ -151,6 +173,11 @@ export function TweakPanel() {
             </button>
           </div>
           <Row label="Display" value={state.display} onChange={(v) => update({ display: v })} />
+          <WeightRow
+            label="Display Weight"
+            value={state.displayWeight}
+            onChange={(v) => update({ displayWeight: v })}
+          />
           <Row label="Body" value={state.body} onChange={(v) => update({ body: v })} />
           <Row label="Mono" value={state.mono} onChange={(v) => update({ mono: v })} />
           <div style={{ marginTop: 10, textAlign: 'right' }}>
@@ -216,6 +243,51 @@ function Row({
         <option value="graphik-wide">graphik-wide</option>
         <option value="space-grotesk">space-grotesk</option>
         <option value="space-mono">space-mono</option>
+      </select>
+    </label>
+  );
+}
+
+function WeightRow({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+}) {
+  return (
+    <label
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 8,
+        marginBottom: 6,
+      }}
+    >
+      <span style={{ textTransform: 'uppercase', opacity: 0.7 }}>{label}</span>
+      <select
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        style={{
+          background: 'rgba(255,255,255,0.05)',
+          color: '#E9E5DA',
+          border: '1px solid rgba(233,229,218,0.2)',
+          fontFamily: 'inherit',
+          fontSize: 11,
+          padding: '4px 6px',
+          letterSpacing: '0.04em',
+          borderRadius: 0,
+          outline: 'none',
+        }}
+      >
+        {WEIGHTS.map((w) => (
+          <option key={w.value} value={w.value}>
+            {w.label}
+          </option>
+        ))}
       </select>
     </label>
   );

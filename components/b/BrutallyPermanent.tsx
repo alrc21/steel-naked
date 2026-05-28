@@ -6,6 +6,7 @@ import {
   motion,
   AnimatePresence,
   useScroll,
+  useSpring,
   useReducedMotion,
   type Variants,
 } from 'motion/react';
@@ -67,7 +68,7 @@ const bgVariants: Variants = {
     scale: [1.08, 1.0, 1.0],
     opacity: 1,
     transition: {
-      duration: 1.2,
+      duration: 0.9,
       ease: EASE,
       times: [0, 0.5, 1],
     },
@@ -78,7 +79,7 @@ const bgVariants: Variants = {
     scale: 1.04,
     opacity: 0.6,
     transition: {
-      duration: 1.2,
+      duration: 0.9,
       ease: EASE,
     },
   },
@@ -97,7 +98,7 @@ const portraitVariants: Variants = {
     scale: [1.05, 1.0, 1.0],
     opacity: 1,
     transition: {
-      duration: 1.0,
+      duration: 0.75,
       ease: EASE,
       times: [0, 0.5, 1],
       delay: 0.15,
@@ -347,18 +348,32 @@ function BrutallyPermanentStatic() {
 
 function BrutallyPermanentScrollDriven() {
   const wrapRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress: rawProgress } = useScroll({
     target: wrapRef,
     offset: ['start start', 'end end'],
+  });
+  const scrollYProgress = useSpring(rawProgress, {
+    stiffness: 90,
+    damping: 22,
+    mass: 0.4,
+    restDelta: 0.0005,
   });
   const [step, setStep] = useState(0);
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
-  // Derive current step from scroll progress
   useEffect(() => {
     const unsub = scrollYProgress.on('change', (v) => {
-      const idx = Math.min(STEP_COUNT - 1, Math.max(0, Math.floor(v * STEP_COUNT)));
-      setStep((prev) => (prev === idx ? prev : idx));
+      const exact = v * STEP_COUNT;
+      const idx = Math.min(STEP_COUNT - 1, Math.max(0, Math.floor(exact)));
+      setStep((prev) => {
+        if (prev === idx) return prev;
+        const frac = exact - idx;
+        const goingForward = idx > prev;
+        const goingBackward = idx < prev;
+        if (goingForward && frac < 0.08) return prev;
+        if (goingBackward && frac > 0.92) return prev;
+        return idx;
+      });
     });
     return () => unsub();
   }, [scrollYProgress]);
@@ -371,7 +386,7 @@ function BrutallyPermanentScrollDriven() {
       data-dark="true"
       ref={wrapRef}
       className="relative"
-      style={{ height: '500vh' }}
+      style={{ height: '400vh' }}
     >
       <div
         className="sticky overflow-hidden"

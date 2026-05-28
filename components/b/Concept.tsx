@@ -15,17 +15,17 @@ export function Concept() {
       className="relative min-h-screen py-[var(--section-pad-tight)] px-[var(--gutter)] bg-[var(--color-paper)]"
     >
       {/* ── 12-col grid, vertically centered ── */}
-      <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-12 min-h-[calc(100vh-2*var(--section-pad-tight))] items-center">
+      <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-12 min-h-[calc(100vh-2*var(--section-pad-tight))]">
 
         {/* ── Left: Headline block (cols 1–8) ── */}
-        <div className="md:col-span-8">
+        <div className="md:col-span-8 self-center">
 
           {/* Eyebrow inline with headline */}
           <h2
             className="font-display text-[var(--color-ink)]"
             style={{
               fontSize: 'clamp(40px, 5.5vw, 88px)',
-              fontWeight: 600,
+              fontWeight: 300,
               lineHeight: 1.05,
               letterSpacing: '-0.01em',
               margin: 0,
@@ -51,7 +51,7 @@ export function Concept() {
         </div>
 
         {/* ── Right: Space Mono caption block (cols 10–12), vertically centered ── */}
-        <div className="md:col-span-3 md:col-start-10">
+        <div className="md:col-span-3 md:col-start-10 self-end pb-[clamp(40px,8vh,120px)]">
           <p
             className="font-mono uppercase text-[var(--color-mute)]"
             style={{

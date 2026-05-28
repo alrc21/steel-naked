@@ -84,22 +84,26 @@ export function Topbar() {
         </div>
         <nav
           aria-label="Primary"
-          className="hidden md:block text-center font-mono uppercase text-[11px] tracking-[0.18em]"
+          className="hidden md:block text-center font-display text-[14px]"
+          style={{ fontWeight: 300, letterSpacing: '-0.005em' }}
         >
           <ul
             role="list"
             className="inline-flex items-center gap-0"
           >
             <li><a href="#about" className="hover:opacity-60 transition-opacity duration-200">Concept</a></li>
-            <li className="mx-2 opacity-40">—</li>
+            <li className="mx-2 opacity-45">—</li>
             <li><a href="#object" className="hover:opacity-60 transition-opacity duration-200">Object</a></li>
-            <li className="mx-2 opacity-40">—</li>
+            <li className="mx-2 opacity-45">—</li>
             <li><a href="#materiality" className="hover:opacity-60 transition-opacity duration-200">Philosophy</a></li>
-            <li className="mx-2 opacity-40">—</li>
+            <li className="mx-2 opacity-45">—</li>
             <li><a href="#studio" className="hover:opacity-60 transition-opacity duration-200">Contact</a></li>
           </ul>
         </nav>
-        <div className="text-right font-mono uppercase text-[11px] tracking-[0.18em] hidden sm:block">EN</div>
+        <div
+          className="text-right font-display text-[14px] hidden sm:block"
+          style={{ fontWeight: 300, letterSpacing: '-0.005em' }}
+        >EN</div>
       </div>
     </header>
   );

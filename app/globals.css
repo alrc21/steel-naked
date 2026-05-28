@@ -72,9 +72,13 @@ body {
   }
 }
 
-.font-display { font-family: var(--font-display), serif; }
+.font-display { font-family: var(--font-display), serif; font-weight: var(--font-display-weight, 300); }
 .font-sans { font-family: var(--font-sans), system-ui, sans-serif; }
 .font-mono { font-family: var(--font-mono), ui-monospace, monospace; }
+
+:root[data-weight-override] .font-display {
+  font-weight: var(--font-display-weight, 300) !important;
+}
 
 
 :focus-visible {
