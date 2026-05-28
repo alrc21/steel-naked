@@ -1,14 +1,8 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 
 type FontKey = 'graphik-wide' | 'space-grotesk' | 'space-mono';
-
-const FONT_VAR: Record<FontKey, string> = {
-  'graphik-wide': 'var(--font-display)',
-  'space-grotesk': 'var(--font-sans)',
-  'space-mono': 'var(--font-mono)',
-};
 
 const DEFAULTS = {
   display: 'graphik-wide' as FontKey,
@@ -20,6 +14,7 @@ const DEFAULTS = {
 const STORAGE_KEY = 'sn:tweak';
 
 type State = { display: FontKey; body: FontKey; mono: FontKey; displayWeight: number };
+type FontValues = { graphikWide: string; spaceGrotesk: string; spaceMono: string };
 
 const WEIGHTS: ReadonlyArray<{ value: number; label: string }> = [
   { value: 100, label: '100 Thin' },
@@ -32,12 +27,32 @@ const WEIGHTS: ReadonlyArray<{ value: number; label: string }> = [
   { value: 900, label: '900 Black' },
 ];
 
-function applyToRoot(state: State) {
+function captureBaseFonts(): FontValues {
+  const cs = getComputedStyle(document.documentElement);
+  return {
+    graphikWide: cs.getPropertyValue('--font-display').trim() || 'serif',
+    spaceGrotesk: cs.getPropertyValue('--font-sans').trim() || 'system-ui',
+    spaceMono: cs.getPropertyValue('--font-mono').trim() || 'monospace',
+  };
+}
+
+function resolveFamily(key: FontKey, base: FontValues): string {
+  switch (key) {
+    case 'graphik-wide':
+      return base.graphikWide;
+    case 'space-grotesk':
+      return base.spaceGrotesk;
+    case 'space-mono':
+      return base.spaceMono;
+  }
+}
+
+function applyToRoot(state: State, base: FontValues) {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
-  root.style.setProperty('--font-display', FONT_VAR[state.display]);
-  root.style.setProperty('--font-sans', FONT_VAR[state.body]);
-  root.style.setProperty('--font-mono', FONT_VAR[state.mono]);
+  root.style.setProperty('--font-display', resolveFamily(state.display, base));
+  root.style.setProperty('--font-sans', resolveFamily(state.body, base));
+  root.style.setProperty('--font-mono', resolveFamily(state.mono, base));
   root.style.setProperty('--font-display-weight', String(state.displayWeight));
   if (state.displayWeight !== DEFAULTS.displayWeight) {
     root.dataset.weightOverride = '';
@@ -78,10 +93,12 @@ export function TweakPanel() {
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<State>(DEFAULTS);
   const [mounted, setMounted] = useState(false);
+  const baseRef = useRef<FontValues | null>(null);
 
   useEffect(() => {
+    baseRef.current = captureBaseFonts();
     const stored = readStored();
-    applyToRoot(stored);
+    applyToRoot(stored, baseRef.current);
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setState(stored);
     setMounted(true);
@@ -114,7 +131,7 @@ export function TweakPanel() {
       } catch {
         // ignore
       }
-      applyToRoot(next);
+      if (baseRef.current) applyToRoot(next, baseRef.current);
       return next;
     });
   }, []);
@@ -179,6 +196,22 @@ export function TweakPanel() {
             >
               [ × ]
             </button>
+          </div>
+          <div
+            className="font-display"
+            style={{
+              fontSize: 22,
+              lineHeight: 1.0,
+              letterSpacing: '-0.01em',
+              fontWeight: state.displayWeight,
+              color: '#FFF7D4',
+              padding: '10px 0',
+              borderTop: '1px solid rgba(233,229,218,0.12)',
+              borderBottom: '1px solid rgba(233,229,218,0.12)',
+              marginBottom: 10,
+            }}
+          >
+            Steel Naked
           </div>
           <Row label="Display" value={state.display} onChange={(v) => update({ display: v })} />
           <WeightRow
