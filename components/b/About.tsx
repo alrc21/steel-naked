@@ -5,6 +5,7 @@ export function About() {
     <section
       id="about"
       className="relative bg-[var(--color-paper)]"
+      data-tweak-id="about-section"
       style={{
         minHeight: '100vh',
         paddingTop: 'var(--section-pad-tight)',
@@ -16,6 +17,7 @@ export function About() {
       {/* Top-left absolutely-positioned label */}
       <p
         className="font-mono uppercase text-[var(--color-ink)] absolute"
+        data-tweak-id="about-label"
         style={{
           top: 'calc(var(--topbar-h) + 20px)',
           left: 'var(--gutter)',
@@ -40,6 +42,7 @@ export function About() {
           {/* Eyebrow inline with headline as a single h2 */}
           <h2
             className="font-display text-[var(--color-ink)]"
+            data-tweak-id="about-headline"
             style={{
               fontSize: 'clamp(40px, 5.5vw, 88px)',
               fontWeight: 300,
@@ -49,6 +52,7 @@ export function About() {
             }}
           >
             <span
+              data-tweak-id="about-eyebrow"
               style={{
                 fontSize: 'clamp(11px, 0.9vw, 14px)',
                 fontWeight: 400,
@@ -77,6 +81,7 @@ export function About() {
           {/* Vertical portrait chair image */}
           <div
             className="relative overflow-hidden"
+            data-tweak-id="about-image"
             style={{
               width: '100%',
               maxWidth: '280px',
@@ -101,6 +106,7 @@ export function About() {
           >
             <p
               className="font-mono uppercase text-[var(--color-mute)]"
+              data-tweak-id="about-caption-1"
               style={{
                 fontSize: '11px',
                 lineHeight: 1.55,
@@ -122,6 +128,7 @@ export function About() {
             </p>
             <p
               className="font-mono uppercase text-[var(--color-mute)]"
+              data-tweak-id="about-caption-2"
               style={{
                 fontSize: '11px',
                 lineHeight: 1.55,
@@ -140,6 +147,7 @@ export function About() {
 
       {/* Bottom-right page indicator dot — absolutely positioned */}
       <div
+        data-tweak-id="about-indicator"
         style={{
           position: 'absolute',
           bottom: 'var(--section-pad-tight)',

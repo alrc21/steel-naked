@@ -8,6 +8,7 @@ export function FooterB() {
     <footer
       data-dark="true"
       className="relative overflow-hidden bg-[var(--color-dark)] text-[var(--color-paper)] px-[var(--gutter)] pb-12 pt-24 border-t"
+      data-tweak-id="footer-section"
       style={{ contain: 'paint', borderColor: 'rgba(255, 247, 212, 0.10)' }}
     >
       <div className="relative z-10 max-w-[1400px] mx-auto">
@@ -28,7 +29,10 @@ export function FooterB() {
 
           {/* Right column — inline metadata line, mono (machine-readable) */}
           <div className="col-span-12 md:col-span-5 md:text-right">
-            <div className="font-mono uppercase text-[11px] tracking-[0.16em] text-[var(--color-paper)] leading-[1.8] flex flex-wrap md:justify-end gap-x-2">
+            <div
+              className="font-mono uppercase text-[11px] tracking-[0.16em] text-[var(--color-paper)] leading-[1.8] flex flex-wrap md:justify-end gap-x-2"
+              data-tweak-id="footer-links"
+            >
               <a href="#object" className="transition-colors duration-300 hover:text-[var(--color-accent)]">Object</a>
               <span aria-hidden className="text-[var(--color-stone)]">·</span>
               <a href="#founders" className="transition-colors duration-300 hover:text-[var(--color-accent)]">Founders</a>
@@ -48,7 +52,10 @@ export function FooterB() {
           className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 pt-8 border-t"
           style={{ borderColor: 'rgba(255, 247, 212, 0.10)' }}
         >
-          <div className="font-sans uppercase text-[var(--color-paper)] text-[13px] md:text-[14px] font-medium">
+          <div
+            className="font-sans uppercase text-[var(--color-paper)] text-[13px] md:text-[14px] font-medium"
+            data-tweak-id="footer-tagline"
+          >
             NEAR-FUTURE. BRUTALLY PERMANENT.
           </div>
           <div className="font-mono uppercase text-[10px] tracking-[0.18em] text-[var(--color-steel)]">

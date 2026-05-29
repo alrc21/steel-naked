@@ -206,6 +206,7 @@ function BrutallyPermanentStatic() {
       {/* Headline (constant) */}
       <h2
         className="font-display absolute hidden md:block z-[3]"
+        data-tweak-id="bp-headline"
         style={{
           top: '50%',
           left: 'var(--gutter)',
@@ -226,6 +227,7 @@ function BrutallyPermanentStatic() {
       {/* Caption */}
       <p
         className="font-mono absolute hidden md:block z-[3]"
+        data-tweak-id="bp-caption"
         style={{
           top: '50%',
           right: 'var(--gutter)',
@@ -246,6 +248,7 @@ function BrutallyPermanentStatic() {
       {/* Corner labels */}
       <p
         className="font-mono absolute hidden md:block z-[10]"
+        data-tweak-id="bp-preview-label"
         style={{
           top: 'calc(var(--topbar-h) + 20px)',
           left: 'var(--gutter)',
@@ -260,6 +263,7 @@ function BrutallyPermanentStatic() {
       </p>
       <p
         className="font-mono absolute hidden md:block z-[10]"
+        data-tweak-id="bp-step-counter"
         style={{
           top: 'calc(var(--topbar-h) + 20px)',
           right: 'var(--gutter)',
@@ -468,6 +472,7 @@ function BrutallyPermanentScrollDriven() {
                 animate="center"
                 exit="exit"
                 className="font-mono absolute z-[10]"
+                data-tweak-id="bp-preview-label"
                 style={{
                   top: 'calc(var(--topbar-h) + 20px)',
                   left: 'var(--gutter)',
@@ -490,6 +495,7 @@ function BrutallyPermanentScrollDriven() {
                 animate="center"
                 exit="exit"
                 className="font-mono absolute z-[10]"
+                data-tweak-id="bp-step-counter"
                 style={{
                   top: 'calc(var(--topbar-h) + 20px)',
                   right: 'var(--gutter)',
@@ -508,6 +514,7 @@ function BrutallyPermanentScrollDriven() {
             {/* ── Headline "Brutally permanent" — constant anchor ── */}
             <h2
               className="font-display absolute z-[3] pointer-events-none"
+              data-tweak-id="bp-headline"
               style={{
                 top: '50%',
                 left: 'var(--gutter)',
@@ -534,6 +541,7 @@ function BrutallyPermanentScrollDriven() {
                 animate="center"
                 exit="exit"
                 className="font-mono absolute z-[3] pointer-events-none"
+                data-tweak-id="bp-caption"
                 style={{
                   top: '50%',
                   right: 'var(--gutter)',

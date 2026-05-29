@@ -26,6 +26,7 @@ export function Hero() {
       <div className="relative w-full h-full overflow-hidden bg-[var(--color-paper-2)]">
         <motion.div
           className="absolute inset-0"
+          data-tweak-id="hero-image"
           style={{ scale, y, willChange: 'transform' }}
         >
           <Image

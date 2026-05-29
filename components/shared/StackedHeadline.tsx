@@ -10,6 +10,7 @@ type StackedHeadlineProps = {
   style?: CSSProperties;
   as?: 'h1' | 'h2' | 'h3';
   amount?: number;
+  'data-tweak-id'?: string;
 };
 
 /**
@@ -27,6 +28,7 @@ export function StackedHeadline({
   style,
   as = 'h2',
   amount = 0.4,
+  'data-tweak-id': dataTweakId,
 }: StackedHeadlineProps) {
   const Tag =
     as === 'h1' ? motion.h1 : as === 'h3' ? motion.h3 : motion.h2;
@@ -35,6 +37,7 @@ export function StackedHeadline({
   return (
     <Tag
       className={className}
+      data-tweak-id={dataTweakId}
       style={style}
       variants={container}
       initial="hidden"

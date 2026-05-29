@@ -85,6 +85,7 @@ export function Topbar() {
         <nav
           aria-label="Primary"
           className="hidden md:block text-center font-display text-[14px]"
+          data-tweak-id="topbar-nav"
           style={{ fontWeight: 300, letterSpacing: '-0.005em' }}
         >
           <ul
@@ -102,6 +103,7 @@ export function Topbar() {
         </nav>
         <div
           className="text-right font-display text-[14px] hidden sm:block"
+          data-tweak-id="topbar-locale"
           style={{ fontWeight: 300, letterSpacing: '-0.005em' }}
         >EN</div>
       </div>

@@ -13,6 +13,7 @@ export function Concept() {
     <section
       id="concept"
       className="relative min-h-screen py-[var(--section-pad-tight)] px-[var(--gutter)] bg-[var(--color-paper)]"
+      data-tweak-id="concept-section"
     >
       {/* ── 12-col grid, vertically centered ── */}
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-12 min-h-[calc(100vh-2*var(--section-pad-tight))]">
@@ -23,6 +24,7 @@ export function Concept() {
           {/* Eyebrow inline with headline */}
           <h2
             className="font-display text-[var(--color-ink)]"
+            data-tweak-id="concept-headline"
             style={{
               fontSize: 'clamp(40px, 5.5vw, 88px)',
               fontWeight: 300,
@@ -32,6 +34,7 @@ export function Concept() {
             }}
           >
             <span
+              data-tweak-id="concept-eyebrow"
               style={{
                 fontSize: 'clamp(11px, 0.9vw, 14px)',
                 fontWeight: 400,
@@ -54,6 +57,7 @@ export function Concept() {
         <div className="md:col-span-3 md:col-start-10 self-end pb-[clamp(40px,8vh,120px)]">
           <p
             className="font-mono uppercase text-[var(--color-mute)]"
+            data-tweak-id="concept-caption"
             style={{
               fontSize: '11px',
               lineHeight: 1.55,

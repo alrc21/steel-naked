@@ -71,6 +71,7 @@ export function WaitlistForm({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="flex flex-col gap-3"
+            data-tweak-id="waitlist-form"
             noValidate
           >
             <div
@@ -103,6 +104,7 @@ export function WaitlistForm({
                     ? 'font-mono uppercase tracking-[0.16em] text-[13px]'
                     : 'font-sans text-[15px] font-medium'
                 }`}
+                data-tweak-id="waitlist-cta"
               >
                 {status === 'loading' ? '…' : submitLabel}
               </button>
