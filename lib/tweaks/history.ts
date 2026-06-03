@@ -6,6 +6,7 @@ export type History = {
   future: TweaksData[];
 };
 
+/** Max undo/redo depth per direction (≤ 50×2+1 snapshots held in memory). */
 const MAX = 50;
 
 export function initHistory(present: TweaksData): History {

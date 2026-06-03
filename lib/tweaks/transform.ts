@@ -13,6 +13,11 @@ export function composeTransform(
   return parts.length > 0 ? parts.join(' ') : undefined;
 }
 
+/**
+ * Converts an Alignment value to a margin-left/margin-right pair.
+ * NOTE: only has a visible effect when the element has a constrained width
+ * (e.g. via the `maxWidth` tweak); on a full-width block it is a no-op.
+ */
 export function alignToMargins(
   align: Alignment,
 ): { marginLeft: string; marginRight: string } {
