@@ -61,11 +61,10 @@ export function EditPanel() {
       role="dialog"
       aria-label="Editor panel"
       style={{
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        width: 320,
-        height: '100vh',
+        position: 'relative',
+        flex: '0 0 340px',
+        width: 340,
+        height: '100%',
         background: PANEL_BG,
         color: PANEL_FG,
         fontFamily: FONT,
