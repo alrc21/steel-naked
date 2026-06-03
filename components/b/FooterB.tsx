@@ -1,8 +1,5 @@
 'use client';
 
-import { motion } from 'motion/react';
-import { EASE_EDITORIAL } from '@/lib/motion-presets';
-
 export function FooterB() {
   return (
     <footer
@@ -64,29 +61,26 @@ export function FooterB() {
         </div>
       </div>
 
-      <motion.div
+      <div
         aria-hidden
-        className="absolute pointer-events-none"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 0.12, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 1.2, ease: EASE_EDITORIAL }}
-        style={{
-          left: 0,
-          right: 0,
-          bottom: '-28%',
-          fontFamily: 'var(--font-wordmark, var(--font-display))',
-          fontWeight: 800,
-          fontSize: 'clamp(120px, 24vw, 360px)',
-          color: 'var(--color-paper-2)',
-          whiteSpace: 'nowrap',
-          lineHeight: 1,
-          textAlign: 'center',
-          willChange: 'transform',
-        }}
+        data-tweak-id="footer-logomark"
+        className="absolute left-0 right-0 flex justify-center pointer-events-none"
+        style={{ bottom: '-32%' }}
       >
-        STEEL NAKED
-      </motion.div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/logo.svg"
+          alt=""
+          aria-hidden
+          style={{
+            width: 'clamp(420px, 92vw, 1280px)',
+            maxWidth: 'none',
+            height: 'auto',
+            opacity: 0.12,
+            filter: 'brightness(0) invert(1)',
+          }}
+        />
+      </div>
     </footer>
   );
 }
