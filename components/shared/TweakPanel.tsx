@@ -90,10 +90,15 @@ function readStored(): State {
 }
 
 export function TweakPanel() {
+  const [framed, setFramed] = useState(false);
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<State>(DEFAULTS);
   const [mounted, setMounted] = useState(false);
   const baseRef = useRef<FontValues | null>(null);
+
+  useEffect(() => {
+    setFramed(window.self !== window.top);
+  }, []);
 
   useEffect(() => {
     baseRef.current = captureBaseFonts();
@@ -146,6 +151,7 @@ export function TweakPanel() {
     clearRoot();
   }, []);
 
+  if (framed) return null;
   if (!mounted) return null;
 
   return (
