@@ -44,8 +44,9 @@ const state: StoreState = {
 let canvasDoc: Document | null = null;
 
 function getCanvasDoc(): Document | null {
-  if (canvasDoc) return canvasDoc;
-  return typeof document !== 'undefined' ? document : null;
+  // Only ever the iframe canvas document. Never fall back to the parent
+  // `document` — canvas DOM ops must not touch the host page.
+  return canvasDoc;
 }
 
 let hydrated = false;
