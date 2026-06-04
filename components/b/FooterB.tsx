@@ -37,8 +37,8 @@ export function FooterB() {
               <span aria-hidden className="text-[var(--color-stone)]">·</span>
               <a href="#founders" className="transition-colors duration-300 hover:text-[var(--color-accent)]">Founders</a>
               <span aria-hidden className="text-[var(--color-stone)]">·</span>
-              <a href="mailto:hello@steelnaked.com" className="transition-colors duration-300 hover:text-[var(--color-accent)]">
-                hello@steelnaked.com
+              <a href="mailto:info@steelnaked.com" className="transition-colors duration-300 hover:text-[var(--color-accent)]">
+                info@steelnaked.com
               </a>
               <span aria-hidden className="text-[var(--color-stone)]">·</span>
               <span aria-disabled="true" className="text-[var(--color-mute)] cursor-default">Imprint</span>
