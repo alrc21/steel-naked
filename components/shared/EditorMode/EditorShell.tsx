@@ -10,11 +10,11 @@ import { ElementOverlay } from './ElementOverlay';
 export function EditorShell() {
   const { editorMode } = useTweaksStore();
   const [device, setDevice] = useState<DeviceKey>('desktop');
-  const [path, setPath] = useState('/');
-
-  useEffect(() => {
-    setPath(window.location.pathname || '/');
-  }, []);
+  // Read the route once at first render. The shell only ever mounts client-side
+  // (after the user toggles editor mode), so window is available here.
+  const [path] = useState(() =>
+    typeof window !== 'undefined' ? window.location.pathname || '/' : '/',
+  );
 
   // undo/redo shortcuts on the parent window (focus outside the iframe)
   useEffect(() => {
