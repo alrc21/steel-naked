@@ -1,1 +1,8 @@
-{}
+{
+  "concept-headline": {
+    "fontSize": "60px"
+  },
+  "topbar-nav": {
+    "fontWeight": 500
+  }
+}
