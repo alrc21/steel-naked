@@ -1,4 +1,5 @@
 import type { FontFamilyKey, Tweak, TweaksData } from './types';
+import { alignToMargins, composeTransform } from './transform';
 
 function fontFamilyValue(key: FontFamilyKey): string {
   switch (key) {
@@ -46,6 +47,21 @@ function tweakToDeclarations(tweak: Tweak): string[] {
   }
   if (tweak.color !== undefined) {
     decls.push(`color: var(--color-${tweak.color}) !important;`);
+  }
+  if (tweak.maxWidth !== undefined) {
+    decls.push(`max-width: ${tweak.maxWidth} !important;`);
+  }
+  if (tweak.opacity !== undefined) {
+    decls.push(`opacity: ${tweak.opacity} !important;`);
+  }
+  if (tweak.align !== undefined) {
+    const m = alignToMargins(tweak.align);
+    decls.push(`margin-left: ${m.marginLeft} !important;`);
+    decls.push(`margin-right: ${m.marginRight} !important;`);
+  }
+  const transform = composeTransform(tweak);
+  if (transform !== undefined) {
+    decls.push(`transform: ${transform} !important;`);
   }
 
   return decls;

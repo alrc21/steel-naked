@@ -17,7 +17,8 @@ const SELECT_OUTLINE = '0 0 0 2px var(--color-accent), 0 0 0 4px rgba(187,255,0,
 const LABEL_ATTR = 'data-sn-editor-label';
 
 function applyOutline(id: string, type: 'hover' | 'select') {
-  const el = document.querySelector(`[data-tweak-id="${id}"]`) as HTMLElement | null;
+  const doc = tweaksStore.getCanvasDoc();
+  const el = doc?.querySelector(`[data-tweak-id="${id}"]`) as HTMLElement | null;
   if (!el) return;
   el.style.boxShadow = type === 'select' ? SELECT_OUTLINE : HOVER_OUTLINE;
   el.style.cursor = 'pointer';
@@ -25,18 +26,25 @@ function applyOutline(id: string, type: 'hover' | 'select') {
 
 function clearOutline(id: string | null) {
   if (!id) return;
-  const el = document.querySelector(`[data-tweak-id="${id}"]`) as HTMLElement | null;
+  const doc = tweaksStore.getCanvasDoc();
+  const el = doc?.querySelector(`[data-tweak-id="${id}"]`) as HTMLElement | null;
   if (!el) return;
   el.style.boxShadow = '';
   el.style.cursor = '';
 }
 
+function removeAllLabels() {
+  const doc = tweaksStore.getCanvasDoc();
+  doc?.querySelectorAll(`[${LABEL_ATTR}]`).forEach((l) => l.remove());
+}
+
 function ensureLabel(id: string) {
-  const el = document.querySelector(`[data-tweak-id="${id}"]`) as HTMLElement | null;
-  if (!el) return;
+  const doc = tweaksStore.getCanvasDoc();
+  const el = doc?.querySelector(`[data-tweak-id="${id}"]`) as HTMLElement | null;
+  if (!doc || !el) return;
   removeAllLabels();
   const rect = el.getBoundingClientRect();
-  const label = document.createElement('div');
+  const label = doc.createElement('div');
   label.setAttribute(LABEL_ATTR, '');
   label.textContent = `[ ${id} ]`;
   label.style.cssText = [
@@ -53,45 +61,46 @@ function ensureLabel(id: string) {
     'pointer-events:none',
     'text-transform:uppercase',
   ].join(';');
-  document.body.appendChild(label);
+  doc.body.appendChild(label);
 }
 
-function removeAllLabels() {
-  const labels = document.querySelectorAll(`[${LABEL_ATTR}]`);
-  labels.forEach((l) => l.remove());
+function nudge(axis: 'x' | 'y', delta: number) {
+  const id = tweaksStore.getState().selectedId;
+  if (!id) return;
+  const cur = tweaksStore.getState().tweaks[id] ?? {};
+  if (axis === 'x') {
+    const x = parseFloat(cur.translateX ?? '0') || 0;
+    tweaksStore.updateTweak(id, { translateX: `${x + delta}px` });
+  } else {
+    const y = parseFloat(cur.translateY ?? '0') || 0;
+    tweaksStore.updateTweak(id, { translateY: `${y + delta}px` });
+  }
 }
 
 export function ElementOverlay() {
-  const { editorMode, selectedId, hoveredId } = useTweaksStore();
+  const { editorMode, selectedId, hoveredId, canvasNonce } = useTweaksStore();
 
+  // bind interaction listeners to the current canvas document
   useEffect(() => {
     if (!editorMode) {
       removeAllLabels();
       return;
     }
+    const doc = tweaksStore.getCanvasDoc();
+    if (!doc) return;
 
     function onMove(e: MouseEvent) {
-      const target = e.target as HTMLElement | null;
-      if (target && target.hasAttribute(LABEL_ATTR)) return;
-      if (target && target.closest('[data-sn-editor-panel]')) return;
       const el = findTweakAncestor(e.target);
       const id = el?.dataset.tweakId ?? null;
-      const current = tweaksStore.getState().hoveredId;
-      if (id !== current) {
-        tweaksStore.setHovered(id);
-      }
+      if (id !== tweaksStore.getState().hoveredId) tweaksStore.setHovered(id);
     }
 
     function onClick(e: MouseEvent) {
-      const target = e.target as HTMLElement | null;
-      if (target && target.closest('[data-sn-editor-panel]')) return;
       const el = findTweakAncestor(e.target);
-      if (!el) return;
-      const id = el.dataset.tweakId;
-      if (!id) return;
+      if (!el || !el.dataset.tweakId) return;
       e.preventDefault();
       e.stopPropagation();
-      tweaksStore.setSelected(id);
+      tweaksStore.setSelected(el.dataset.tweakId);
     }
 
     function onKey(e: KeyboardEvent) {
@@ -99,20 +108,42 @@ export function ElementOverlay() {
       if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
       if (e.key === 'Escape') {
         tweaksStore.setSelected(null);
+        return;
+      }
+      if ((e.metaKey || e.ctrlKey) && (e.key === 'z' || e.key === 'Z')) {
+        e.preventDefault();
+        if (e.shiftKey) tweaksStore.redo();
+        else tweaksStore.undo();
+        return;
+      }
+      if (!tweaksStore.getState().selectedId) return;
+      const step = e.shiftKey ? 10 : 1;
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        nudge('x', -step);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nudge('x', step);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        nudge('y', -step);
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        nudge('y', step);
       }
     }
 
-    document.addEventListener('mousemove', onMove, true);
-    document.addEventListener('click', onClick, true);
-    document.addEventListener('keydown', onKey, true);
-
+    doc.addEventListener('mousemove', onMove, true);
+    doc.addEventListener('click', onClick, true);
+    doc.addEventListener('keydown', onKey, true);
     return () => {
-      document.removeEventListener('mousemove', onMove, true);
-      document.removeEventListener('click', onClick, true);
-      document.removeEventListener('keydown', onKey, true);
+      doc.removeEventListener('mousemove', onMove, true);
+      doc.removeEventListener('click', onClick, true);
+      doc.removeEventListener('keydown', onKey, true);
     };
-  }, [editorMode]);
+  }, [editorMode, canvasNonce]);
 
+  // selection outline + label
   useEffect(() => {
     if (!editorMode) return;
     if (selectedId) {
@@ -120,24 +151,19 @@ export function ElementOverlay() {
       ensureLabel(selectedId);
     }
     return () => {
-      if (selectedId) {
-        clearOutline(selectedId);
-      }
+      if (selectedId) clearOutline(selectedId);
       removeAllLabels();
     };
-  }, [editorMode, selectedId]);
+  }, [editorMode, selectedId, canvasNonce]);
 
+  // hover outline
   useEffect(() => {
     if (!editorMode) return;
-    if (hoveredId && hoveredId !== selectedId) {
-      applyOutline(hoveredId, 'hover');
-    }
+    if (hoveredId && hoveredId !== selectedId) applyOutline(hoveredId, 'hover');
     return () => {
-      if (hoveredId && hoveredId !== selectedId) {
-        clearOutline(hoveredId);
-      }
+      if (hoveredId && hoveredId !== selectedId) clearOutline(hoveredId);
     };
-  }, [editorMode, hoveredId, selectedId]);
+  }, [editorMode, hoveredId, selectedId, canvasNonce]);
 
   return null;
 }

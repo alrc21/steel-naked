@@ -6,6 +6,7 @@ const ALLOWED_KEYS = new Set<keyof Tweak>([
   ...TWEAK_PROPS.typography,
   ...TWEAK_PROPS.spacing,
   ...TWEAK_PROPS.layout,
+  ...TWEAK_PROPS.position,
   ...TWEAK_PROPS.color,
 ]);
 

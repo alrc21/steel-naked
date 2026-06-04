@@ -26,6 +26,13 @@ export type Tweak = {
   paddingBottom?: string;
   textAlign?: Alignment;
   color?: ColorToken;
+  // position group (v2)
+  align?: Alignment;
+  translateX?: string;
+  translateY?: string;
+  maxWidth?: string;
+  scale?: number;
+  opacity?: number;
 };
 
 export type TweaksData = Record<string, Tweak>;
@@ -34,6 +41,7 @@ export const TWEAK_PROPS = {
   typography: ['fontSize', 'fontWeight', 'letterSpacing', 'lineHeight', 'fontFamily'] as const,
   spacing: ['marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'] as const,
   layout: ['textAlign'] as const,
+  position: ['align', 'translateX', 'translateY', 'maxWidth', 'scale', 'opacity'] as const,
   color: ['color'] as const,
 } as const;
 
@@ -79,6 +87,7 @@ export const TWEAKABLE_IDS = [
   'waitlist-form',
   'waitlist-cta',
   'footer-section',
+  'footer-logomark',
   'footer-tagline',
   'footer-links',
 ] as const;

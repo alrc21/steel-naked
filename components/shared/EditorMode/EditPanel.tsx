@@ -4,15 +4,15 @@ import { useState } from 'react';
 import { tweaksStore, useTweaksStore } from './useTweaksStore';
 import { TypographyTab } from './tabs/TypographyTab';
 import { SpacingTab } from './tabs/SpacingTab';
-import { LayoutTab } from './tabs/LayoutTab';
+import { PositionTab } from './tabs/PositionTab';
 import { ColorTab } from './tabs/ColorTab';
 
-type TabKey = 'typography' | 'spacing' | 'layout' | 'color';
+type TabKey = 'typography' | 'spacing' | 'position' | 'color';
 
 const TABS: ReadonlyArray<{ key: TabKey; label: string }> = [
   { key: 'typography', label: 'Type' },
   { key: 'spacing', label: 'Space' },
-  { key: 'layout', label: 'Layout' },
+  { key: 'position', label: 'Position' },
   { key: 'color', label: 'Color' },
 ];
 
@@ -61,11 +61,10 @@ export function EditPanel() {
       role="dialog"
       aria-label="Editor panel"
       style={{
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        width: 320,
-        height: '100vh',
+        position: 'relative',
+        flex: '0 0 340px',
+        width: 340,
+        height: '100%',
         background: PANEL_BG,
         color: PANEL_FG,
         fontFamily: FONT,
@@ -170,7 +169,7 @@ export function EditPanel() {
           >
             {tab === 'typography' && <TypographyTab id={selectedId} tweak={tweak} />}
             {tab === 'spacing' && <SpacingTab id={selectedId} tweak={tweak} />}
-            {tab === 'layout' && <LayoutTab id={selectedId} tweak={tweak} />}
+            {tab === 'position' && <PositionTab id={selectedId} tweak={tweak} />}
             {tab === 'color' && <ColorTab id={selectedId} tweak={tweak} />}
           </div>
         </>
