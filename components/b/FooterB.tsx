@@ -63,7 +63,6 @@ export function FooterB() {
 
       <div
         aria-hidden
-        data-tweak-id="footer-logomark"
         className="absolute left-0 right-0 flex justify-center pointer-events-none"
         style={{ bottom: '-32%' }}
       >
@@ -72,6 +71,7 @@ export function FooterB() {
           src="/images/logo.svg"
           alt=""
           aria-hidden
+          data-tweak-id="footer-logomark"
           style={{
             width: 'clamp(420px, 92vw, 1280px)',
             maxWidth: 'none',
