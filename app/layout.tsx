@@ -4,6 +4,7 @@ import { TweakPanel } from '@/components/shared/TweakPanel';
 import { SmoothScroll } from '@/components/shared/SmoothScroll';
 import { TweaksHydrator } from '@/components/shared/EditorMode/TweaksHydrator';
 import { EditorRoot } from '@/components/shared/EditorMode/EditorRoot';
+import { BrandSignature } from '@/components/shared/BrandSignature';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <TweaksHydrator />
         <SmoothScroll />
+        <BrandSignature />
         {children}
         <TweakPanel />
         <EditorRoot />

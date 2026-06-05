@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, type Variants } from 'motion/react';
 import { waitlistSchema, normalizeEmail } from '@/components/shared/waitlist-schema';
-import { EASE_EDITORIAL } from '@/lib/motion-presets';
+import { EASE_EDITORIAL, staggerChildren } from '@/lib/motion-presets';
 
 type Source = 'a' | 'b' | 'landing';
 type Status = 'idle' | 'loading' | 'success' | 'error';
@@ -13,6 +13,20 @@ type WaitlistFormProps = {
   variant?: 'brutalist' | 'editorial';
   withNote?: boolean;
   submitLabel?: string;
+};
+
+const EASE = EASE_EDITORIAL as unknown as [number, number, number, number];
+
+// Success is the page's one true conversion moment — so it gets the page's
+// one orchestrated reveal: tag, then a hairline that draws across, then the
+// human line. Staggered, never bouncy. Restraint is the brand.
+const SUCCESS_ITEM: Variants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+};
+const SUCCESS_RULE: Variants = {
+  hidden: { scaleX: 0 },
+  visible: { scaleX: 1, transition: { duration: 0.85, ease: EASE } },
 };
 
 export function WaitlistForm({
@@ -55,13 +69,31 @@ export function WaitlistForm({
             key="success"
             role="status"
             aria-live="polite"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.6, ease: EASE_EDITORIAL }}
-            className={`font-mono uppercase tracking-[0.16em] text-[12px] ${isBrutalist ? 'text-[var(--color-accent)]' : 'text-[var(--color-accent)]'}`}
+            variants={staggerChildren(0.14, 0.05)}
+            initial="hidden"
+            animate="visible"
+            exit={{ opacity: 0, y: -12, transition: { duration: 0.4, ease: EASE } }}
+            className="flex flex-col gap-4"
           >
-            _received. you are on the list.
+            <motion.div
+              variants={SUCCESS_ITEM}
+              className="font-mono uppercase tracking-[0.16em] text-[12px] text-[var(--color-accent)]"
+            >
+              _received.
+            </motion.div>
+            <motion.div
+              aria-hidden
+              variants={SUCCESS_RULE}
+              style={{ originX: 0 }}
+              className="h-px w-full bg-[var(--color-accent)]"
+            />
+            <motion.p
+              variants={SUCCESS_ITEM}
+              className="font-sans text-[15px] leading-[1.5] text-[var(--color-paper-2)] max-w-[40ch]"
+            >
+              You&apos;re on the founder list. We&apos;ll reach out before the launch — previews
+              first, always.
+            </motion.p>
           </motion.div>
         ) : (
           <motion.form
@@ -99,7 +131,7 @@ export function WaitlistForm({
                 aria-label="Join the founder list"
                 aria-busy={status === 'loading'}
                 disabled={status === 'loading'}
-                className={`px-4 py-2 my-1 rounded-sm bg-[var(--color-accent)] text-[var(--color-ink)] transition-all duration-200 disabled:opacity-50 hover:ring-2 hover:ring-[var(--color-accent)] hover:ring-offset-2 hover:ring-offset-[var(--color-dark)] ${
+                className={`px-4 py-2 my-1 rounded-sm bg-[var(--color-accent)] text-[var(--color-ink)] transition-all duration-200 disabled:opacity-50 hover:ring-2 hover:ring-[var(--color-accent)] hover:ring-offset-2 hover:ring-offset-[var(--color-dark)] active:translate-y-px active:duration-75 ${
                   isBrutalist
                     ? 'font-mono uppercase tracking-[0.16em] text-[13px]'
                     : 'font-sans text-[15px] font-medium'

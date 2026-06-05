@@ -92,13 +92,13 @@ export function Topbar() {
             role="list"
             className="inline-flex items-center gap-0"
           >
-            <li><a href="#about" className="hover:opacity-60 transition-opacity duration-200">Concept</a></li>
+            <li><a href="#about" className="sn-link">Concept</a></li>
             <li className="mx-2 opacity-45">—</li>
-            <li><a href="#object" className="hover:opacity-60 transition-opacity duration-200">Object</a></li>
+            <li><a href="#object" className="sn-link">Object</a></li>
             <li className="mx-2 opacity-45">—</li>
-            <li><a href="#materiality" className="hover:opacity-60 transition-opacity duration-200">Philosophy</a></li>
+            <li><a href="#materiality" className="sn-link">Philosophy</a></li>
             <li className="mx-2 opacity-45">—</li>
-            <li><a href="#studio" className="hover:opacity-60 transition-opacity duration-200">Contact</a></li>
+            <li><a href="#studio" className="sn-link">Contact</a></li>
           </ul>
         </nav>
         <div
