@@ -35,9 +35,9 @@ export function About() {
         className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 h-full"
         style={{ gap: 'var(--gutter)', minHeight: 'calc(100vh - var(--section-pad-tight) * 2)' }}
       >
-        {/* LEFT — inline eyebrow + editorial headline, cols 1–7 */}
+        {/* LEFT — inline eyebrow + editorial headline, cols 1–8 */}
         <div
-          className="md:col-span-7 flex flex-col justify-center"
+          className="md:col-span-8 flex flex-col justify-center"
         >
           {/* Eyebrow inline with headline as a single h2 */}
           <h2
@@ -68,9 +68,7 @@ export function About() {
             </span>
             Near-future seating
             <br />
-            designed
-            <br />
-            for permanence.
+            designed for permanence.
           </h2>
         </div>
 

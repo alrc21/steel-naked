@@ -30,15 +30,9 @@ export function FooterB() {
               className="font-mono uppercase text-[11px] tracking-[0.16em] text-[var(--color-paper)] leading-[1.8] flex flex-wrap md:justify-end gap-x-2"
               data-tweak-id="footer-links"
             >
-              <a href="#object" className="transition-colors duration-300 hover:text-[var(--color-accent)]">Object</a>
-              <span aria-hidden className="text-[var(--color-stone)]">·</span>
-              <a href="#founders" className="transition-colors duration-300 hover:text-[var(--color-accent)]">Founders</a>
-              <span aria-hidden className="text-[var(--color-stone)]">·</span>
               <a href="mailto:info@steelnaked.com" className="transition-colors duration-300 hover:text-[var(--color-accent)]">
                 info@steelnaked.com
               </a>
-              <span aria-hidden className="text-[var(--color-stone)]">·</span>
-              <span aria-disabled="true" className="text-[var(--color-mute)] cursor-default">Imprint</span>
               <span aria-hidden className="text-[var(--color-stone)]">·</span>
               <span aria-disabled="true" className="text-[var(--color-mute)] cursor-default">Privacy</span>
             </div>

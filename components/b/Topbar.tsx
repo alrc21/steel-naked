@@ -94,11 +94,9 @@ export function Topbar() {
           >
             <li><a href="#about" className="sn-link">Concept</a></li>
             <li className="mx-2 opacity-45">—</li>
-            <li><a href="#object" className="sn-link">Object</a></li>
+            <li><a href="#concept" className="sn-link">Object</a></li>
             <li className="mx-2 opacity-45">—</li>
-            <li><a href="#materiality" className="sn-link">Philosophy</a></li>
-            <li className="mx-2 opacity-45">—</li>
-            <li><a href="#studio" className="sn-link">Contact</a></li>
+            <li><a href="#founders" className="sn-link">Contact</a></li>
           </ul>
         </nav>
         <div
