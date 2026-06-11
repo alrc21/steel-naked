@@ -17,7 +17,7 @@ import {
 const STEPS = [
   {
     bg: '/images/hero-a.webp',
-    portrait: '/images/bg01.webp',
+    portrait: '/images/bg05.webp',
     label: '[ THE_ANTIDOTE ]',
     counter: '[ 01 / 03 ]',
     caption:
@@ -32,7 +32,7 @@ const STEPS = [
       'A single sheet folded with intention.\nNo screws, no joints — only the geometry\nof steel under tension.',
   },
   {
-    bg: '/images/hero-b.webp',
+    bg: '/images/hero-c.webp',
     portrait: '/images/bg10.webp',
     label: '[ THE_GESTURE ]',
     counter: '[ 03 / 03 ]',

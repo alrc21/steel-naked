@@ -44,10 +44,10 @@ export function About() {
             className="font-display text-[var(--color-ink)]"
             data-tweak-id="about-headline"
             style={{
-              fontSize: 'clamp(40px, 5.5vw, 88px)',
+              fontSize: 'var(--text-section-headline)',
               fontWeight: 300,
               lineHeight: 1.05,
-              letterSpacing: '-0.01em',
+              letterSpacing: '-0.02em',
               margin: 0,
             }}
           >

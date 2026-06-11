@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { graphikWide, spaceGrotesk, spaceMono } from '@/lib/fonts';
 import { TweakPanel } from '@/components/shared/TweakPanel';
 import { SmoothScroll } from '@/components/shared/SmoothScroll';
@@ -16,13 +16,17 @@ export const metadata: Metadata = {
   description:
     'Near-future seating sculpted from a single sheet of stainless steel. Designed and crafted in Valencia, Spain. Limited founder edition.',
   openGraph: {
+    siteName: 'STEEL NAKED',
     title: 'STEEL NAKED™',
     description: 'Near-future. Brutally permanent.',
-    images: [{ url: '/og.jpg', width: 1200, height: 630 }],
     type: 'website',
   },
   twitter: { card: 'summary_large_image' },
   robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#E6E6E6',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
