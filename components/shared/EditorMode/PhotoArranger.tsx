@@ -4,11 +4,12 @@
 
 import { useEffect, useState } from 'react';
 import { STEPS } from '@/components/b/brutally-steps';
-import { moveStep, settingText, type PhotoStep } from '@/lib/arranger';
+import { settingText, type PhotoStep, type SettingRow } from '@/lib/arranger';
 
 const ACCENT = '#BBFF00';
 const FG = '#FFF7D4';
 const INK = '#0E0E0E';
+const DIM = 'rgba(233,229,218,0.55)';
 const FONT = 'var(--font-mono), ui-monospace, monospace';
 const BORDER = '1px solid rgba(233,229,218,0.16)';
 
@@ -16,24 +17,25 @@ const btn: React.CSSProperties = {
   background: 'transparent',
   color: FG,
   border: BORDER,
-  padding: '5px 12px',
+  padding: '6px 12px',
   fontFamily: FONT,
   fontSize: 10,
-  letterSpacing: '0.06em',
+  letterSpacing: '0.08em',
   textTransform: 'uppercase',
   cursor: 'pointer',
   borderRadius: 0,
 };
 
 type Slot = 'bg' | 'portrait';
-type Picking = { step: number; slot: Slot } | null;
 
 const seed = (): PhotoStep[] => STEPS.map((s) => ({ bg: s.bg, portrait: s.portrait }));
+const name = (src: string) => (src ? src.replace('/images/', '') : '—');
 
 export function PhotoArranger({ onClose }: { onClose: () => void }) {
   const [steps, setSteps] = useState<PhotoStep[]>(seed);
+  const [sel, setSel] = useState(0);
+  const [slot, setSlot] = useState<Slot>('bg');
   const [gallery, setGallery] = useState<string[]>([]);
-  const [picking, setPicking] = useState<Picking>(null);
   const [copied, setCopied] = useState(false);
 
   async function loadGallery() {
@@ -50,28 +52,21 @@ export function PhotoArranger({ onClose }: { onClose: () => void }) {
   }, []);
 
   function assign(src: string) {
-    if (!picking) return;
-    setSteps((prev) =>
-      prev.map((s, i) => (i === picking.step ? { ...s, [picking.slot]: src } : s)),
-    );
-  }
-  function move(i: number, delta: number) {
-    setSteps((prev) => moveStep(prev, i, delta));
-    setPicking(null);
-  }
-  function removeStep(i: number) {
-    setSteps((prev) => prev.filter((_, idx) => idx !== i));
-    setPicking(null);
-  }
-  function addStep() {
-    setSteps((prev) => [...prev, { bg: '', portrait: '' }]);
+    setSteps((prev) => prev.map((s, i) => (i === sel ? { ...s, [slot]: src } : s)));
   }
   async function copy() {
-    await navigator.clipboard.writeText(settingText(steps));
+    const rows: SettingRow[] = steps.map((s, i) => ({
+      paso: i + 1,
+      titular: STEPS[i]!.headline,
+      wide: s.bg,
+      vertical: s.portrait,
+    }));
+    await navigator.clipboard.writeText(settingText(rows));
     setCopied(true);
     setTimeout(() => setCopied(false), 1600);
   }
 
+  const cur = steps[sel]!;
   const pad = (n: number) => String(n + 1).padStart(2, '0');
 
   return (
@@ -96,6 +91,7 @@ export function PhotoArranger({ onClose }: { onClose: () => void }) {
           gap: 12,
           padding: '10px 16px',
           borderBottom: BORDER,
+          flex: '0 0 auto',
         }}
       >
         <span style={{ fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
@@ -119,60 +115,61 @@ export function PhotoArranger({ onClose }: { onClose: () => void }) {
       </div>
 
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
-        {/* steps */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: 16, display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {steps.map((s, i) => (
-            <div key={i} style={{ border: BORDER, padding: 12 }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-                <span style={{ fontSize: 11, letterSpacing: '0.14em', color: ACCENT }}>
-                  PASO {pad(i)} / {pad(steps.length - 1)}
-                </span>
-                <div style={{ display: 'flex', gap: 6 }}>
-                  <button type="button" style={{ ...btn, opacity: i === 0 ? 0.35 : 1 }} onClick={() => move(i, -1)}>
-                    ↑
-                  </button>
-                  <button
-                    type="button"
-                    style={{ ...btn, opacity: i === steps.length - 1 ? 0.35 : 1 }}
-                    onClick={() => move(i, 1)}
-                  >
-                    ↓
-                  </button>
-                  <button type="button" style={btn} onClick={() => removeStep(i)}>
-                    ✕
-                  </button>
-                </div>
-              </div>
-              <div style={{ display: 'flex', gap: 12 }}>
-                <SlotBox
-                  label="WIDE (fondo)"
-                  ratio="16 / 9"
-                  src={s.bg}
-                  active={picking?.step === i && picking.slot === 'bg'}
-                  onPick={() => setPicking({ step: i, slot: 'bg' })}
-                />
-                <SlotBox
-                  label="VERTICAL (centro)"
-                  ratio="3 / 4"
-                  width={110}
-                  src={s.portrait}
-                  active={picking?.step === i && picking.slot === 'portrait'}
-                  onPick={() => setPicking({ step: i, slot: 'portrait' })}
-                />
-              </div>
-            </div>
-          ))}
-          <button type="button" style={{ ...btn, padding: '10px 12px' }} onClick={addStep}>
-            + Añadir paso
-          </button>
+        {/* ── Preview (left) ── */}
+        <div
+          style={{
+            flex: 1.5,
+            minWidth: 0,
+            padding: 24,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 14,
+            justifyContent: 'center',
+          }}
+        >
+          <StepPreview step={cur} index={sel} />
+
+          {/* slot picker + filenames */}
+          <div style={{ display: 'flex', gap: 10, alignItems: 'stretch' }}>
+            <SlotButton
+              label="WIDE · fondo"
+              file={name(cur.bg)}
+              active={slot === 'bg'}
+              onClick={() => setSlot('bg')}
+            />
+            <SlotButton
+              label="VERTICAL · centro"
+              file={name(cur.portrait)}
+              active={slot === 'portrait'}
+              onClick={() => setSlot('portrait')}
+            />
+          </div>
+          <p style={{ fontSize: 10, color: DIM, margin: 0, lineHeight: 1.5 }}>
+            Elige un slot arriba, luego una foto de la galería para asignarla. La miniatura de cada
+            paso a la derecha te deja saltar entre los 3.
+          </p>
         </div>
 
-        {/* gallery */}
-        <div style={{ width: 340, borderLeft: BORDER, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-          <div style={{ padding: '10px 14px', borderBottom: BORDER, fontSize: 10, letterSpacing: '0.08em' }}>
-            {picking
-              ? `GALERÍA → asignar a PASO ${pad(picking.step)} · ${picking.slot === 'bg' ? 'WIDE' : 'VERTICAL'}`
-              : 'GALERÍA — elige un slot a la izquierda'}
+        {/* ── Steps + gallery (right) ── */}
+        <div style={{ width: 380, borderLeft: BORDER, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+          {/* step tabs */}
+          <div style={{ padding: 12, borderBottom: BORDER, display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {steps.map((s, i) => (
+              <StepTab
+                key={i}
+                index={i}
+                step={s}
+                headline={STEPS[i]!.headline}
+                counter={STEPS[i]!.counter}
+                selected={i === sel}
+                onSelect={() => setSel(i)}
+              />
+            ))}
+          </div>
+
+          {/* gallery */}
+          <div style={{ padding: '10px 14px', borderBottom: BORDER, fontSize: 10, letterSpacing: '0.06em' }}>
+            GALERÍA → PASO {pad(sel)} · <span style={{ color: ACCENT }}>{slot === 'bg' ? 'WIDE' : 'VERTICAL'}</span>
           </div>
           <div
             style={{
@@ -182,20 +179,32 @@ export function PhotoArranger({ onClose }: { onClose: () => void }) {
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
               gap: 8,
-              opacity: picking ? 1 : 0.5,
+              alignContent: 'start',
             }}
           >
-            {gallery.map((src) => (
-              <button
-                key={src}
-                type="button"
-                onClick={() => assign(src)}
-                title={src}
-                style={{ padding: 0, border: BORDER, background: 'transparent', cursor: picking ? 'pointer' : 'not-allowed' }}
-              >
-                <img src={src} alt="" style={{ width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', display: 'block' }} />
-              </button>
-            ))}
+            {gallery.map((src) => {
+              const inUse = src === cur[slot];
+              return (
+                <button
+                  key={src}
+                  type="button"
+                  onClick={() => assign(src)}
+                  title={name(src)}
+                  style={{
+                    padding: 0,
+                    border: inUse ? `2px solid ${ACCENT}` : BORDER,
+                    background: 'transparent',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <img
+                    src={src}
+                    alt=""
+                    style={{ width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', display: 'block' }}
+                  />
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -203,46 +212,217 @@ export function PhotoArranger({ onClose }: { onClose: () => void }) {
   );
 }
 
-function SlotBox({
-  label,
-  ratio,
-  src,
-  active,
-  onPick,
-  width,
-}: {
-  label: string;
-  ratio: string;
-  src: string;
-  active: boolean;
-  onPick: () => void;
-  width?: number;
-}) {
+/** Faithful static preview of one step's desktop composition. */
+function StepPreview({ step, index }: { step: PhotoStep; index: number }) {
+  const s = STEPS[index]!;
   return (
-    <div style={{ width }}>
-      <div style={{ fontSize: 9, letterSpacing: '0.08em', opacity: 0.7, marginBottom: 5 }}>{label}</div>
-      <button
-        type="button"
-        onClick={onPick}
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        maxWidth: 'min(100%, calc(62vh * 16 / 9))',
+        aspectRatio: '16 / 9',
+        overflow: 'hidden',
+        background: '#000',
+        border: BORDER,
+        alignSelf: 'center',
+      }}
+    >
+      {/* wide bg */}
+      {step.bg ? (
+        <img
+          src={step.bg}
+          alt=""
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      ) : (
+        <Empty label="foto WIDE" />
+      )}
+      {/* scrim */}
+      <div
         style={{
-          padding: 0,
-          width: '100%',
-          aspectRatio: ratio,
-          border: active ? `2px solid ${ACCENT}` : BORDER,
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.18))',
+        }}
+      />
+      {/* portrait card */}
+      <div
+        style={{
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '30%',
+          aspectRatio: '3 / 4',
+          border: '1px solid rgba(255,255,255,0.18)',
+          overflow: 'hidden',
           background: '#000',
-          cursor: 'pointer',
-          display: 'block',
         }}
       >
-        {src ? (
-          <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        {step.portrait ? (
+          <img
+            src={step.portrait}
+            alt=""
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
         ) : (
-          <span style={{ fontSize: 10, color: FG, opacity: 0.6 }}>elegir…</span>
+          <Empty label="VERTICAL" small />
         )}
-      </button>
-      <div style={{ fontSize: 8, opacity: 0.5, marginTop: 4, wordBreak: 'break-all' }}>
-        {src ? src.replace('/images/', '') : '—'}
       </div>
+      {/* label */}
+      <span
+        className="font-mono"
+        style={{ position: 'absolute', top: 14, left: 18, fontSize: 9, letterSpacing: '0.18em', color: ACCENT }}
+      >
+        _BRUTALLY PERMANENT / 03
+      </span>
+      {/* counter */}
+      <span
+        className="font-mono"
+        style={{ position: 'absolute', top: 14, right: 18, fontSize: 9, letterSpacing: '0.18em', color: ACCENT }}
+      >
+        {s.counter}
+      </span>
+      {/* headline */}
+      <h2
+        className="font-display"
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: 18,
+          transform: 'translateY(-50%)',
+          margin: 0,
+          fontSize: 'clamp(20px, 3vw, 54px)',
+          fontWeight: 700,
+          lineHeight: 0.95,
+          letterSpacing: '-0.015em',
+          color: ACCENT,
+          whiteSpace: 'pre-line',
+        }}
+      >
+        {s.headline.replace(/ /g, '\n')}
+      </h2>
+      {/* caption */}
+      <span
+        className="font-mono"
+        style={{
+          position: 'absolute',
+          bottom: 14,
+          right: 18,
+          maxWidth: '48%',
+          textAlign: 'right',
+          fontSize: 9,
+          lineHeight: 1.6,
+          letterSpacing: '0.02em',
+          color: ACCENT,
+          whiteSpace: 'pre-line',
+        }}
+      >
+        {s.caption}
+      </span>
+    </div>
+  );
+}
+
+function StepTab({
+  index,
+  step,
+  headline,
+  counter,
+  selected,
+  onSelect,
+}: {
+  index: number;
+  step: PhotoStep;
+  headline: string;
+  counter: string;
+  selected: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        padding: 8,
+        background: selected ? 'rgba(187,255,0,0.08)' : 'transparent',
+        border: selected ? `1px solid ${ACCENT}` : BORDER,
+        cursor: 'pointer',
+        textAlign: 'left',
+      }}
+    >
+      {step.bg ? (
+        <img src={step.bg} alt="" style={{ width: 56, height: 32, objectFit: 'cover', display: 'block' }} />
+      ) : (
+        <div style={{ width: 56, height: 32, background: '#1a1a1a' }} />
+      )}
+      {step.portrait ? (
+        <img src={step.portrait} alt="" style={{ width: 24, height: 32, objectFit: 'cover', display: 'block' }} />
+      ) : (
+        <div style={{ width: 24, height: 32, background: '#1a1a1a' }} />
+      )}
+      <span style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0 }}>
+        <span style={{ fontSize: 9, letterSpacing: '0.1em', color: selected ? ACCENT : DIM }}>{counter}</span>
+        <span
+          className="font-display"
+          style={{ fontSize: 14, color: FG, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+        >
+          {headline}
+        </span>
+      </span>
+    </button>
+  );
+}
+
+function SlotButton({
+  label,
+  file,
+  active,
+  onClick,
+}: {
+  label: string;
+  file: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        flex: 1,
+        textAlign: 'left',
+        padding: '8px 12px',
+        background: active ? 'rgba(187,255,0,0.08)' : 'transparent',
+        border: active ? `1px solid ${ACCENT}` : BORDER,
+        cursor: 'pointer',
+      }}
+    >
+      <div style={{ fontSize: 9, letterSpacing: '0.1em', color: active ? ACCENT : DIM }}>{label}</div>
+      <div style={{ fontSize: 11, color: FG, marginTop: 3, wordBreak: 'break-all', fontFamily: FONT }}>{file}</div>
+    </button>
+  );
+}
+
+function Empty({ label, small }: { label: string; small?: boolean }) {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        inset: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: DIM,
+        fontSize: small ? 9 : 11,
+        letterSpacing: '0.1em',
+      }}
+    >
+      + {label}
     </div>
   );
 }
