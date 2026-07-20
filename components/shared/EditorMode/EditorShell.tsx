@@ -6,10 +6,12 @@ import { Toolbar, type DeviceKey } from './Toolbar';
 import { CanvasFrame } from './CanvasFrame';
 import { EditPanel } from './EditPanel';
 import { ElementOverlay } from './ElementOverlay';
+import { PhotoArranger } from './PhotoArranger';
 
 export function EditorShell() {
   const { editorMode } = useTweaksStore();
   const [device, setDevice] = useState<DeviceKey>('desktop');
+  const [showPhotos, setShowPhotos] = useState(false);
   // Read the route once at first render. The shell only ever mounts client-side
   // (after the user toggles editor mode), so window is available here.
   const [path] = useState(() =>
@@ -44,12 +46,13 @@ export function EditorShell() {
         background: '#0E0E0E',
       }}
     >
-      <Toolbar device={device} onDevice={setDevice} />
+      <Toolbar device={device} onDevice={setDevice} onPhotos={() => setShowPhotos(true)} />
       <div style={{ flex: 1, display: 'flex', minHeight: 0 }}>
         <CanvasFrame device={device} path={path} />
         <EditPanel />
       </div>
       <ElementOverlay />
+      {showPhotos && <PhotoArranger onClose={() => setShowPhotos(false)} />}
     </div>
   );
 }

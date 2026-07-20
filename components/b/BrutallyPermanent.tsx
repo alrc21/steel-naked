@@ -10,36 +10,7 @@ import {
   useReducedMotion,
   type MotionValue,
 } from 'motion/react';
-
-// ─── Data ────────────────────────────────────────────────────────────────────
-// Backgrounds MUST be landscape (2400×1339) — portraits are 1340×2400.
-
-const STEPS = [
-  {
-    bg: '/images/hero-a.webp',
-    portrait: '/images/bg05.webp',
-    label: '[ THE_ANTIDOTE ]',
-    counter: '[ 01 / 03 ]',
-    caption:
-      'Designed as an antidote to disposable\nculture — an object made to survive\ntrends, seasons and obsolescence.',
-  },
-  {
-    bg: '/images/hero-landing.webp',
-    portrait: '/images/bg07.webp',
-    label: '[ THE_FOLD ]',
-    counter: '[ 02 / 03 ]',
-    caption:
-      'A single sheet folded with intention.\nNo screws, no joints — only the geometry\nof steel under tension.',
-  },
-  {
-    bg: '/images/hero-c.webp',
-    portrait: '/images/bg10.webp',
-    label: '[ THE_GESTURE ]',
-    counter: '[ 03 / 03 ]',
-    caption:
-      'Forged in Valencia. Built to outlive\nthe rooms it inhabits. Not a chair —\na statement folded from one gesture.',
-  },
-] as const;
+import { STEPS } from './brutally-steps';
 
 const STEP_COUNT = STEPS.length;
 const SEG = 1 / STEP_COUNT;
@@ -187,6 +158,44 @@ function StepText({
   );
 }
 
+/** Big display headline that swaps per step. Outer div holds the constant
+ *  left-center anchor; inner motion layer carries the per-step fade + drift so
+ *  each headline stays vertically centered regardless of its own height. */
+function StepHeadline({
+  index,
+  progress,
+  text,
+}: {
+  index: number;
+  progress: MotionValue<number>;
+  text: string;
+}) {
+  const { opacity, y } = useStepFade(index, progress);
+  return (
+    <div
+      className="absolute z-30 pointer-events-none"
+      style={{ top: '50%', left: 'var(--gutter)', transform: 'translateY(-50%)' }}
+    >
+      <motion.h2
+        className="font-display"
+        style={{
+          opacity,
+          y,
+          fontSize: 'clamp(44px, 5.5vw, 96px)',
+          fontWeight: 700,
+          lineHeight: 0.95,
+          letterSpacing: '-0.015em',
+          color: 'var(--color-accent)',
+          whiteSpace: 'pre-line',
+          margin: 0,
+        }}
+      >
+        {text.replace(/ /g, '\n')}
+      </motion.h2>
+    </div>
+  );
+}
+
 // ─── Exported component ───────────────────────────────────────────────────────
 
 export function BrutallyPermanent() {
@@ -212,8 +221,7 @@ function BrutallyPermanentScrollDriven() {
   });
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
-  // Section-long drifts for the constant elements.
-  const headlineY = useTransform(progress, [0, 1], ['0%', '-6%']);
+  // Section-long drift for the constant elements.
   const railScaleY = useTransform(progress, [0, 1], [0, 1]);
 
   return (
@@ -307,27 +315,10 @@ function BrutallyPermanentScrollDriven() {
           ))}
         </div>
 
-        {/* ── Headline — constant anchor, left center ── */}
-        <motion.h2
-          className="font-display absolute z-30 pointer-events-none"
-          data-tweak-id="bp-headline"
-          style={{
-            top: '50%',
-            left: 'var(--gutter)',
-            translateY: '-50%',
-            y: headlineY,
-            fontSize: 'clamp(44px, 5.5vw, 96px)',
-            fontWeight: 700,
-            lineHeight: 0.95,
-            letterSpacing: '-0.015em',
-            color: 'var(--color-accent)',
-            margin: 0,
-          }}
-        >
-          Brutally
-          <br />
-          permanent
-        </motion.h2>
+        {/* ── Headline — left-center anchor, text swaps each step ── */}
+        {STEPS.map((s, i) => (
+          <StepHeadline key={s.headline} index={i} progress={progress} text={s.headline} />
+        ))}
 
         {/* ── Per-step label + caption, bottom-right (desktop) / bottom-left (mobile) ── */}
         <div
@@ -457,12 +448,11 @@ function BrutallyPermanentStatic() {
           lineHeight: 0.95,
           letterSpacing: '-0.015em',
           color: 'var(--color-accent)',
+          whiteSpace: 'pre-line',
           margin: 0,
         }}
       >
-        Brutally
-        <br />
-        permanent
+        {step.headline.replace(/ /g, '\n')}
       </h2>
 
       <p

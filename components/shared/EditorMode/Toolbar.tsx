@@ -22,9 +22,10 @@ const DEVICES: ReadonlyArray<{ key: DeviceKey; label: string }> = [
 type Props = {
   device: DeviceKey;
   onDevice: (d: DeviceKey) => void;
+  onPhotos: () => void;
 };
 
-export function Toolbar({ device, onDevice }: Props) {
+export function Toolbar({ device, onDevice, onPhotos }: Props) {
   // subscribe so undo/redo enabled state re-renders
   useTweaksStore();
   const undoable = tweaksStore.canUndo();
@@ -71,6 +72,9 @@ export function Toolbar({ device, onDevice }: Props) {
       </div>
 
       <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <button type="button" style={btn(false)} onClick={onPhotos}>
+          ▦ Fotos
+        </button>
         <button
           type="button"
           style={{ ...btn(false), opacity: undoable ? 1 : 0.4, cursor: undoable ? 'pointer' : 'not-allowed' }}
