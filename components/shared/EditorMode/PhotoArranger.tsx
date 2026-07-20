@@ -31,6 +31,30 @@ type Slot = 'bg' | 'portrait';
 const seed = (): PhotoStep[] => STEPS.map((s) => ({ bg: s.bg, portrait: s.portrait }));
 const name = (src: string) => (src ? src.replace('/images/', '') : '—');
 
+/** Clipboard with a legacy fallback — the async API needs a focused document. */
+async function copyText(text: string): Promise<boolean> {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    /* fall through */
+  }
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    const ok = document.execCommand('copy');
+    ta.remove();
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
 export function PhotoArranger({ onClose }: { onClose: () => void }) {
   const [steps, setSteps] = useState<PhotoStep[]>(seed);
   const [sel, setSel] = useState(0);
@@ -61,7 +85,8 @@ export function PhotoArranger({ onClose }: { onClose: () => void }) {
       wide: s.bg,
       vertical: s.portrait,
     }));
-    await navigator.clipboard.writeText(settingText(rows));
+    const ok = await copyText(settingText(rows));
+    if (!ok) return;
     setCopied(true);
     setTimeout(() => setCopied(false), 1600);
   }
