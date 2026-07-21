@@ -1,0 +1,16 @@
+{
+  "fecha": "2026-07-21",
+  "lighthouse": { "perf": 70, "a11y": 100, "bp": 100, "seo": 100 },
+  "hecho": [
+    "SEO/meta ya sólido (SEO 100): title/description/OG/twitter/favicon/metadataBase",
+    "robots.txt + sitemap.xml + web manifest + apple-touch-icon generados",
+    "legales: privacy + legal-notice (RGPD/LSSI, ES) enlazados en footer, sin banner (sin cookies de tracking)",
+    "analytics: ninguno (decidido)"
+  ],
+  "pendientes": [
+    "Rellenar datos del titular en legal.config.json (nombre/razón social, NIF/CIF, dirección) — hay [PENDIENTE] visibles en /privacy y /legal-notice",
+    "Search Console: añadir propiedad tipo 'Prefijo de URL' (dominio .vercel.app no permite verificación por DNS) y enviar https://steel-naked.vercel.app/sitemap.xml",
+    "Perf 70: imágenes pesadas + JS de motion, inherente al diseño premium; opcional comprimir hero si se quiere subir el score",
+    "Analytics opcional a futuro: Vercel Analytics cookieless si se quiere medir visitas"
+  ]
+}
