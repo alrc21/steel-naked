@@ -59,6 +59,19 @@ export function FooterB() {
             ©2026 Steel Naked™ · Valencia, Spain
           </div>
         </div>
+
+        {/* Studio credit — quiet, curated, at the very end */}
+        <div className="mt-12 text-center font-mono uppercase text-[10px] tracking-[0.22em] text-[var(--color-steel)]">
+          Designed by{' '}
+          <a
+            href="https://aliastudio.cc"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[var(--color-paper-2)] underline decoration-[var(--color-stone)] underline-offset-4 transition-colors duration-300 hover:text-[var(--color-accent)]"
+          >
+            ALIA Studio
+          </a>
+        </div>
       </div>
 
       <div
