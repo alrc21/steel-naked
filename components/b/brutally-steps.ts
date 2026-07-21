@@ -13,8 +13,8 @@ export type BrutallyStep = {
 
 export const STEPS: readonly BrutallyStep[] = [
   {
-    bg: '/images/hero-a.webp',
-    portrait: '/images/bg05.webp',
+    bg: '/images/hero-c.webp',
+    portrait: '/images/bg09.webp',
     headline: 'Near-Future',
     label: '[ THE_ANTIDOTE ]',
     counter: '[ 01 / 03 ]',
@@ -22,8 +22,8 @@ export const STEPS: readonly BrutallyStep[] = [
       'Designed as an antidote to disposable\nculture — an object made to survive\ntrends, seasons and obsolescence.',
   },
   {
-    bg: '/images/hero-landing.webp',
-    portrait: '/images/bg07.webp',
+    bg: '/images/hero-sunset.webp',
+    portrait: '/images/bg-cave.webp',
     headline: 'Brutally Permanent',
     label: '[ THE_FOLD ]',
     counter: '[ 02 / 03 ]',
@@ -31,8 +31,8 @@ export const STEPS: readonly BrutallyStep[] = [
       'A single sheet folded with intention.\nNo screws, no joints — only the geometry\nof steel under tension.',
   },
   {
-    bg: '/images/hero-c.webp',
-    portrait: '/images/bg10.webp',
+    bg: '/images/hero-a.webp',
+    portrait: '/images/bg-ocean.webp',
     headline: 'Collectible Seating',
     label: '[ THE_GESTURE ]',
     counter: '[ 03 / 03 ]',
