@@ -34,7 +34,13 @@ export function FooterB() {
                 info@steelnaked.com
               </a>
               <span aria-hidden className="text-[var(--color-stone)]">·</span>
-              <span aria-disabled="true" className="text-[var(--color-mute)] cursor-default">Privacy</span>
+              <a href="/privacy" className="transition-colors duration-300 hover:text-[var(--color-accent)]">
+                Privacy
+              </a>
+              <span aria-hidden className="text-[var(--color-stone)]">·</span>
+              <a href="/legal-notice" className="transition-colors duration-300 hover:text-[var(--color-accent)]">
+                Legal Notice
+              </a>
             </div>
           </div>
         </div>
