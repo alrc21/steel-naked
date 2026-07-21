@@ -17,9 +17,13 @@ export function SmoothScroll() {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) return;
 
+    // Heavy, weighty scroll: a low lerp makes the viewport "chase" the input
+    // with mass and a long settle (momentum) instead of tracking it 1:1.
+    // wheelMultiplier < 1 makes each notch travel less — deliberate, unhurried.
     const lenis = new Lenis({
-      duration: 1.4,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.06,
+      wheelMultiplier: 0.85,
+      touchMultiplier: 1.5,
       smoothWheel: true,
     });
 

@@ -15,9 +15,10 @@ import { STEPS } from './brutally-steps';
 const STEP_COUNT = STEPS.length;
 const SEG = 1 / STEP_COUNT;
 // Half-width of the scrubbed transition window around each step boundary.
-const W = 0.055;
+// Narrower than the long dwell → each image holds, then swaps decisively (magnetic).
+const W = 0.048;
 // Portrait trails the background by a beat — layered choreography.
-const PORTRAIT_DELAY = 0.022;
+const PORTRAIT_DELAY = 0.024;
 
 // ─── Media query hook ─────────────────────────────────────────────────────────
 
@@ -212,12 +213,14 @@ function BrutallyPermanentScrollDriven() {
     target: wrapRef,
     offset: ['start start', 'end end'],
   });
-  // Gentle smoothing — keeps the scrub buttery without feeling laggy.
+  // Heavy, magnetic scrub: high mass + low stiffness make the images glide and
+  // settle into place (overdamped — no bounce), so each frame feels weighty and
+  // "locks" in rather than tracking the scroll 1:1.
   const progress = useSpring(rawProgress, {
-    stiffness: 160,
-    damping: 32,
-    mass: 0.3,
-    restDelta: 0.0005,
+    stiffness: 110,
+    damping: 30,
+    mass: 0.6,
+    restDelta: 0.0004,
   });
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
@@ -230,7 +233,7 @@ function BrutallyPermanentScrollDriven() {
       data-dark="true"
       ref={wrapRef}
       className="relative"
-      style={{ height: `${STEP_COUNT * 110}vh` }}
+      style={{ height: `${STEP_COUNT * 160}vh` }}
     >
       <div
         className="sticky overflow-hidden bg-[var(--color-ink)]"
