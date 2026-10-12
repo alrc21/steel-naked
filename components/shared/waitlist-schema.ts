@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+// No JIT: zod otherwise probes `Function('')`, which a CSP without
+// 'unsafe-eval' reports (and blocks once enforced).
+z.config({ jitless: true });
+
 export const waitlistSchema = z.object({
   email: z.email(),
   source: z.enum(['a', 'b', 'landing']),
