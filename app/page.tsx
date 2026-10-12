@@ -11,6 +11,7 @@ import { Concept } from '@/components/b/Concept';
 // import { Philosophy } from '@/components/b/Philosophy';
 import { WaitlistB } from '@/components/b/WaitlistB';
 import { FooterB } from '@/components/b/FooterB';
+import legal from '@/legal.config.json';
 
 export const metadata: Metadata = {
   title: 'Steel Naked™ — Near-future seating, brutally permanent',
@@ -19,9 +20,23 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 };
 
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Steel Naked',
+  url: legal.web,
+  logo: `${legal.web}/images/logo.svg`,
+  email: legal.email,
+  address: { '@type': 'PostalAddress', addressLocality: 'Valencia', addressCountry: 'ES' },
+};
+
 export default function Home() {
   return (
     <main className="relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
       <Topbar />
       <Hero />
       <About />

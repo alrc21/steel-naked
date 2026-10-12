@@ -39,8 +39,8 @@ export function About() {
         <div
           className="md:col-span-8 flex flex-col justify-center"
         >
-          {/* Eyebrow inline with headline as a single h2 */}
-          <h2
+          {/* Eyebrow inline with headline as a single h1 (the page's only one) */}
+          <h1
             className="font-display text-[var(--color-ink)]"
             data-tweak-id="about-headline"
             style={{
@@ -69,7 +69,7 @@ export function About() {
             Near-future seating
             <br />
             designed for permanence.
-          </h2>
+          </h1>
         </div>
 
         {/* RIGHT — portrait chair image + caption, cols 9–12 */}
