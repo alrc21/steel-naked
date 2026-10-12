@@ -4,9 +4,10 @@ import { useState, type FormEvent } from 'react';
 import { motion, AnimatePresence, type Variants } from 'motion/react';
 import { waitlistSchema, normalizeEmail } from '@/components/shared/waitlist-schema';
 import { EASE_EDITORIAL, staggerChildren } from '@/lib/motion-presets';
+import legal from '@/legal.config.json';
 
 type Source = 'a' | 'b' | 'landing';
-type Status = 'idle' | 'loading' | 'success' | 'error';
+type Status = 'idle' | 'manual' | 'error';
 
 type WaitlistFormProps = {
   source: Source;
@@ -17,9 +18,9 @@ type WaitlistFormProps = {
 
 const EASE = EASE_EDITORIAL as unknown as [number, number, number, number];
 
-// Success is the page's one true conversion moment — so it gets the page's
-// one orchestrated reveal: tag, then a hairline that draws across, then the
-// human line. Staggered, never bouncy. Restraint is the brand.
+// There is no waitlist backend yet, so nothing is stored on submit. Instead of
+// a fake confirmation, the panel says so and hands over a prefilled email.
+// Same orchestrated reveal: tag, hairline, human line. Restraint is the brand.
 const SUCCESS_ITEM: Variants = {
   hidden: { opacity: 0, y: 8 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
@@ -40,7 +41,7 @@ export function WaitlistForm({
   const [status, setStatus] = useState<Status>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setErrorMessage(null);
     const parsed = waitlistSchema.safeParse({
@@ -53,20 +54,25 @@ export function WaitlistForm({
       setErrorMessage('Please enter a valid email.');
       return;
     }
-    setStatus('loading');
-    await new Promise((r) => setTimeout(r, 700));
-    console.info('[stub] waitlist submit:', parsed.data);
-    setStatus('success');
+    setStatus('manual');
   }
+
+  const trimmedNote = note.trim();
+  const mailtoHref = `mailto:${legal.email}?subject=${encodeURIComponent(
+    'Steel Naked founder list'
+  )}&body=${encodeURIComponent(
+    `Hi, I'd like to join the Steel Naked founder list.\n\nEmail: ${normalizeEmail(email)}` +
+      (trimmedNote ? `\n\n${trimmedNote}` : '')
+  )}`;
 
   const isBrutalist = variant === 'brutalist';
 
   return (
     <div className="w-full">
       <AnimatePresence mode="wait">
-        {status === 'success' ? (
+        {status === 'manual' ? (
           <motion.div
-            key="success"
+            key="manual"
             role="status"
             aria-live="polite"
             variants={staggerChildren(0.14, 0.05)}
@@ -79,7 +85,7 @@ export function WaitlistForm({
               variants={SUCCESS_ITEM}
               className="font-mono uppercase tracking-[0.16em] text-[12px] text-[var(--color-accent)]"
             >
-              _received.
+              _one more step.
             </motion.div>
             <motion.div
               aria-hidden
@@ -91,8 +97,14 @@ export function WaitlistForm({
               variants={SUCCESS_ITEM}
               className="font-sans text-[15px] leading-[1.5] text-[var(--color-paper-2)] max-w-[40ch]"
             >
-              You&apos;re on the founder list. We&apos;ll reach out before the launch — previews
-              first, always.
+              Online sign-up isn&apos;t open yet, so nothing was saved here. To join the founder
+              list, email us:{' '}
+              <a
+                href={mailtoHref}
+                className="text-[var(--color-paper-2)] underline decoration-[var(--color-accent)] underline-offset-4 transition-colors duration-300 hover:text-[var(--color-accent)]"
+              >
+                {legal.email} →
+              </a>
             </motion.p>
           </motion.div>
         ) : (
@@ -129,8 +141,6 @@ export function WaitlistForm({
               <button
                 type="submit"
                 aria-label="Join the founder list"
-                aria-busy={status === 'loading'}
-                disabled={status === 'loading'}
                 className={`px-4 py-2 my-1 rounded-sm bg-[var(--color-accent)] text-[var(--color-ink)] transition-all duration-200 disabled:opacity-50 hover:ring-2 hover:ring-[var(--color-accent)] hover:ring-offset-2 hover:ring-offset-[var(--color-dark)] active:translate-y-px active:duration-75 ${
                   isBrutalist
                     ? 'font-mono uppercase tracking-[0.16em] text-[13px]'
@@ -138,7 +148,7 @@ export function WaitlistForm({
                 }`}
                 data-tweak-id="waitlist-cta"
               >
-                {status === 'loading' ? '…' : submitLabel}
+                {submitLabel}
               </button>
             </div>
             {withNote && (
