@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: 'Steel Naked™ — Near-future seating, brutally permanent',
   description:
     'A radical seating object folded from one continuous sheet of stainless steel. Designed and crafted in Valencia, Spain.',
+  alternates: { canonical: '/' },
 };
 
 export default function Home() {

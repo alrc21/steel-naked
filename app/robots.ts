@@ -1,11 +1,9 @@
 import type { MetadataRoute } from 'next';
-
-const BASE = 'https://steel-naked.vercel.app';
+import legal from '@/legal.config.json';
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: '*', allow: '/' },
-    sitemap: `${BASE}/sitemap.xml`,
-    host: BASE,
+    sitemap: `${legal.web}/sitemap.xml`,
   };
 }

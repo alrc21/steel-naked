@@ -4,6 +4,14 @@ import legal from '@/legal.config.json';
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'How Steel Naked handles the personal data you share through this site.',
+  alternates: { canonical: '/privacy' },
+  openGraph: {
+    title: 'Privacy Policy · STEEL NAKED',
+    description: 'How Steel Naked handles the personal data you share through this site.',
+    url: '/privacy',
+    // A page-level openGraph replaces the layout's, file-based image included.
+    images: '/opengraph-image',
+  },
 };
 
 const P = ({ children }: { children: string }) => <span className="pending">{children}</span>;

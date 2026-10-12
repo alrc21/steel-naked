@@ -5,10 +5,11 @@ import { SmoothScroll } from '@/components/shared/SmoothScroll';
 import { TweaksHydrator } from '@/components/shared/EditorMode/TweaksHydrator';
 import { EditorRoot } from '@/components/shared/EditorMode/EditorRoot';
 import { BrandSignature } from '@/components/shared/BrandSignature';
+import legal from '@/legal.config.json';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://steel-naked.vercel.app'),
+  metadataBase: new URL(legal.web),
   title: {
     default: 'STEEL NAKED — Near-future. Brutally permanent.',
     template: '%s · STEEL NAKED',
@@ -20,9 +21,9 @@ export const metadata: Metadata = {
     title: 'STEEL NAKED™',
     description: 'Near-future. Brutally permanent.',
     type: 'website',
+    url: '/',
   },
   twitter: { card: 'summary_large_image' },
-  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
