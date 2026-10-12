@@ -1,9 +1,10 @@
 import { ImageResponse } from 'next/og';
 
-export const runtime = 'edge';
+// Node runtime (no `edge`) so the image is prerendered at build: a Satori
+// layout error now fails the build instead of shipping a 0-byte PNG.
 export const alt = 'STEEL NAKED — Near-future. Brutally permanent.';
 export const size = { width: 1200, height: 630 };
-export const contentType = 'image/jpeg';
+export const contentType = 'image/png';
 
 export default async function Image() {
   return new ImageResponse(
@@ -24,10 +25,22 @@ export default async function Image() {
         <div style={{ fontSize: 22, letterSpacing: 4, textTransform: 'uppercase', opacity: 0.6 }}>
           STEEL NAKED™
         </div>
-        <div style={{ fontSize: 96, lineHeight: 1, fontWeight: 300, maxWidth: 900 }}>
-          Near-future.
-          <br />
-          <span style={{ fontStyle: 'italic', color: '#c0573a' }}>Brutally</span> permanent.
+        {/* Satori needs explicit flex on any element with more than one child. */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            fontSize: 96,
+            lineHeight: 1,
+            fontWeight: 300,
+            maxWidth: 900,
+          }}
+        >
+          <div>Near-future.</div>
+          <div style={{ display: 'flex', gap: 24 }}>
+            <span style={{ fontStyle: 'italic', color: '#c0573a' }}>Brutally</span>
+            <span>permanent.</span>
+          </div>
         </div>
         <div style={{ fontSize: 18, letterSpacing: 3, textTransform: 'uppercase', opacity: 0.5 }}>
           Sculpted from steel · Valencia, Spain · 2026
