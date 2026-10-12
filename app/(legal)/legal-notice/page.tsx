@@ -9,6 +9,8 @@ export const metadata: Metadata = {
     title: 'Legal Notice · STEEL NAKED',
     description: 'Ownership and terms of use of the Steel Naked website.',
     url: '/legal-notice',
+    siteName: 'STEEL NAKED',
+    type: 'website',
     // A page-level openGraph replaces the layout's, file-based image included.
     images: '/opengraph-image',
   },

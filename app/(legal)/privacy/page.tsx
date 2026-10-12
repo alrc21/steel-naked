@@ -9,6 +9,8 @@ export const metadata: Metadata = {
     title: 'Privacy Policy · STEEL NAKED',
     description: 'How Steel Naked handles the personal data you share through this site.',
     url: '/privacy',
+    siteName: 'STEEL NAKED',
+    type: 'website',
     // A page-level openGraph replaces the layout's, file-based image included.
     images: '/opengraph-image',
   },
