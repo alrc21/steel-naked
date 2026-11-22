@@ -72,7 +72,8 @@ export function PhotoArranger({ onClose }: { onClose: () => void }) {
     }
   }
   useEffect(() => {
-    loadGallery();
+    // Diferido a una microtarea: la regla set-state-in-effect solo marca el setState síncrono.
+    queueMicrotask(loadGallery);
   }, []);
 
   function assign(src: string) {

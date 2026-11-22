@@ -21,5 +21,6 @@ jobs:
           node-version: 24
       - run: pnpm install --frozen-lockfile
       - run: pnpm audit --prod --audit-level high
+      - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test
