@@ -2,6 +2,9 @@ import localFont from 'next/font/local';
 
 // Only the weights the site renders. Add a file back here before using a new
 // weight/style, or the browser will synthesize it.
+// Not preloaded either: above the fold on mobile there is no Graphik text (the
+// topbar labels are hidden below sm/md), and the four .otf preloads (~310 KB)
+// were downloading at High priority ahead of the hero image (the LCP).
 export const graphikWide = localFont({
   src: [
     { path: '../public/fonts/graphik-wide/Graphik Wide Light.otf', weight: '300', style: 'normal' },
@@ -11,6 +14,7 @@ export const graphikWide = localFont({
   ],
   variable: '--font-display',
   display: 'swap',
+  preload: false,
 });
 
 // Not preloaded: the hero is image-only, so body/mono text is never what
