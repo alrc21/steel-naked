@@ -2,18 +2,20 @@
 
 import Image from 'next/image';
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
   });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+  // Reduced motion: the image stays still (no scroll zoom or drift).
+  const scale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 1.08]);
   // The image wrapper is overscanned (inset -8%), so this drift never
   // exposes the frame underneath.
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '-5%']);
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '-5%']);
 
   return (
     <section
@@ -37,6 +39,7 @@ export function Hero() {
             alt="Steel Naked™"
             fill
             priority
+            fetchPriority="high"
             sizes="(max-width: 767px) 1px, 100vw"
             className="object-cover hidden md:block"
             style={{ objectPosition: 'center 55%' }}
@@ -47,6 +50,7 @@ export function Hero() {
             alt="Steel Naked™"
             fill
             priority
+            fetchPriority="high"
             sizes="(max-width: 767px) 100vw, 1px"
             className="object-cover md:hidden"
             style={{ objectPosition: 'center 40%' }}

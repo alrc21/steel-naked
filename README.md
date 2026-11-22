@@ -20,6 +20,7 @@ Two single-page design interpretations of the Steel Naked™ coming-soon site, d
 ```bash
 pnpm install
 pnpm dev          # http://localhost:3000
+NEXT_PUBLIC_EDITOR=1 pnpm dev   # same, with the internal editor (Shift+E / Shift+T)
 pnpm typecheck
 pnpm lint
 pnpm test
@@ -28,7 +29,7 @@ pnpm build
 
 ## Status
 
-**v1 (this commit set):** frontend complete, waitlist form is a UI stub (logs to console, no persistence).
+**v1 (this commit set):** frontend complete. No waitlist persistence yet: the form validates the email and then points the visitor to a prefilled `mailto:` (nothing is stored or logged); `/api/waitlist` answers 503.
 **v2 (next):** connect `/api/waitlist` to Supabase + Resend for real persistence and confirmation email.
 
 ## Brand
