@@ -37,6 +37,7 @@ export function Hero() {
             alt="Steel Naked™"
             fill
             priority
+            fetchPriority="high"
             sizes="(max-width: 767px) 1px, 100vw"
             className="object-cover hidden md:block"
             style={{ objectPosition: 'center 55%' }}
@@ -47,6 +48,7 @@ export function Hero() {
             alt="Steel Naked™"
             fill
             priority
+            fetchPriority="high"
             sizes="(max-width: 767px) 100vw, 1px"
             className="object-cover md:hidden"
             style={{ objectPosition: 'center 40%' }}

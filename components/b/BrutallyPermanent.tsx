@@ -77,7 +77,9 @@ function BgLayer({
           src={src}
           alt=""
           fill
-          priority={index === 0}
+          // Below the fold: load early, but without the preload/high priority
+          // that `priority` adds, so it doesn't compete with the hero (LCP).
+          loading={index === 0 ? 'eager' : undefined}
           sizes="100vw"
           className="object-cover"
         />
